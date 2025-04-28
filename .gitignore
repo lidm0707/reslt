@@ -1,0 +1,25 @@
+# Rust specific files
+*/target
+/target
+**/*.rs.bk
+
+# Node.js dependencies
+/node_modules
+*/node_modules
+package-lock.json
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# Lock files
+Cargo.lock
+
+.env
