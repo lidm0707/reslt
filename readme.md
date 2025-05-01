@@ -92,7 +92,6 @@ For detailed documentation and examples, visit the [documentation site](https://
 1. Clone the repository
 2. Install dependencies:
    ```bash
-   cargo build
    npm install
    ```
 3. Run Tailwind CSS compiler:
