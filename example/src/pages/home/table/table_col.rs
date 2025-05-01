@@ -105,7 +105,7 @@ fn dorpdown() -> Option<Rc<dyn Fn(Person) -> Element>> {
     }))
 }
 
-pub fn create_col(check: Signal<Vec<Person>>) -> PropCol<Person> {
+pub fn create_col() -> PropCol<Person> {
     PropCol {
         cols: vec![
             Col {
@@ -113,13 +113,20 @@ pub fn create_col(check: Signal<Vec<Person>>) -> PropCol<Person> {
                 index: "check".to_owned(),
                 class: Some("text-right".to_owned()),
                 action: Some(Rc::new(move |row: Person| {
+                    let mut checked = use_signal(|| false);
                     rsx! {input{
                         r#type:"checkbox",
-                        checked:false,
+                        checked:checked(),
                         onchange: move |_| {
-                            // println!("{:?}",evt);
-                            check.to_owned().write().push(row.to_owned());
-
+                            if !checked() {
+                                use_context::<UseCheckBox<Person>>().to_owned().push_checked_data(row.to_owned());
+    
+                                checked.set(true);
+                            } else {
+                                use_context::<UseCheckBox<Person>>().to_owned().remove(row.to_owned());
+                                checked.set(false);
+                            }
+                            
                         }
                     }}
                 })),
