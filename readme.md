@@ -18,7 +18,7 @@ Add the library to your Cargo.toml:
 
 ```toml
 [dependencies]
-reslt = "0.1.0"
+reslt = { path = "../" }  # Reference the dioxus_table library as a local dependency
 ```
 
 ## Quick Start
