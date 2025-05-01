@@ -28,7 +28,7 @@ use dioxus::prelude::*;
 use reslt::prelude::*;
 
 // Define your data structure
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize , FieldAccessible)]
 struct Person {
     id: u32,
     name: String,
