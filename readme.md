@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div align="center">
     <img src=".\crabby.png" alt="นี่คือตัวอย่างรูป" width="200" height="200">
 </div>
 # Reslt - Reactive Table Library for Dioxus
