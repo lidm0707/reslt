@@ -114,19 +114,23 @@ pub fn create_col() -> PropCol<Person> {
                 class: Some("text-right".to_owned()),
                 action: Some(Rc::new(move |row: Person| {
                     let mut checked = use_signal(|| false);
+                    let update_check_all = use_context::<UseCheckBox<Person>>().is_all_checked();
+                    use_effect(use_reactive!(|(update_check_all)| {
+                        checked.set(update_check_all);
+                    }));
                     rsx! {input{
                         r#type:"checkbox",
                         checked:checked(),
                         onchange: move |_| {
                             if !checked() {
                                 use_context::<UseCheckBox<Person>>().to_owned().push_checked_data(row.to_owned());
-    
+
                                 checked.set(true);
                             } else {
                                 use_context::<UseCheckBox<Person>>().to_owned().remove(row.to_owned());
                                 checked.set(false);
                             }
-                            
+
                         }
                     }}
                 })),

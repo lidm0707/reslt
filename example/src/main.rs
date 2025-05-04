@@ -20,6 +20,20 @@ fn CheckMethod() -> Element {
         }
     }
 }
+
+#[component]
+fn BtnCheckALl(data: Vec<Person>) -> Element {
+    let mut checkbox = use_context::<UseCheckBox<Person>>();
+    rsx! {
+        button {
+            onclick: move |_| {
+                checkbox.set_all_checked(data.to_owned());
+            },
+            "Check All"
+        }
+    }
+}
+
 #[component]
 fn App() -> Element {
     let cols = create_col();
@@ -36,12 +50,12 @@ fn App() -> Element {
                     method: rsx! {
                         CheckMethod {}
                     },
+                    BtnCheckALl{data: table.get_rows().to_owned()}
                     DefaultTable { table }
                 }
             }
         }
-    }
-}
+    }}
 
 fn main() {
     dioxus::launch(App);
