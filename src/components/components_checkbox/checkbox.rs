@@ -16,9 +16,9 @@ pub fn CheckBox<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>(
         "invisible"
     };
     rsx! {
-        div { class: format!("fixed bottom-0 w-full flex justify-center justify-items-center bg-white p-4 gap-4 border border-gray-200 shadow-lg rounded-lg w-auto z-20 {}", is_visible),
-            div { class:  " p-4 w-auto", {method} }
-        
+        div { class: format!("fixed   bottom-10 left-[calc(50%-10rem)] w-xs flex flex-col justify-center justify-items-center bg-white p-4 gap-4 border border-gray-200 shadow-lg rounded-lg  p-4 w-auto  z-40 {}", is_visible),
+            {method}
+
         }
         {children}
     }

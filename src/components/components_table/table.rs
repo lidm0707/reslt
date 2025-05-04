@@ -9,6 +9,7 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
     #[props(default = TableConfig::default())] 
     class: TableConfig,
     table: UseTable<T>,
+    children:Element,
 ) -> Element {
     let class_head = class.to_owned();
     let class_main = class.to_owned();
@@ -58,6 +59,7 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                 }
             }
             Pagination { table: table.to_owned() }
+            {children}
         }
     }
 }

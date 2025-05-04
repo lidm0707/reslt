@@ -9,7 +9,6 @@ pub fn TableHeader(class: Option<String>, children: Element) -> Element {
     rsx! {
         thead {
             class:  class.unwrap_or_default(),
-            style: "position: sticky; top: 0; z-index: 10;",
             {children}
         }
     }
