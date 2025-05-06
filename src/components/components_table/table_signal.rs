@@ -42,13 +42,16 @@ where
 
     let page = state.page_state.read().to_owned();
     let current_page = page.current_page;
-    let start = current_page * page.items_per_page;
-    let end = start + page.items_per_page;
+    let items_per_page = page.items_per_page;
+    // let items_per_page = current_page * page.items_per_page;
+    // let end = start + page.items_per_page;
     let sort = state.sort_state.read().to_owned();
 
-    let data_resource = use_resource(use_reactive!(|start, sort| {
+    let data_resource = use_resource(use_reactive!(|current_page,items_per_page, sort| {
         let value = fetch_fn.to_owned();
         let sort = sort.to_owned();
+        let start = current_page * page.items_per_page;
+        let end = start + items_per_page;
         async move {
             value.to_owned()(
                 start,
