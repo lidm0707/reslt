@@ -46,7 +46,7 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                                         for _ in table.get_cols().into_iter() {
                                             TableCell { class: class.to_owned().table_cell,
                                                 div {
-                                                    class: "h-4 bg-gray-200 rounded animate-pulse",
+                                                    class: "h-4 bg-gray-100 dark:bg-gray-700 rounded animate-pulse opacity-50",
                                                     ""
                                                 }
                                             }
