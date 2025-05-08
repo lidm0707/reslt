@@ -43,6 +43,7 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
                         select {
                             class: "block w-20 rounded-md border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600",
                             onchange: move |evt| {
+                                items_per_page.set_loading(true);
                                 items_per_page.set_items_per_page(evt.data.value().parse().unwrap_or(10));
                             },
                             option { value: "10", "10" }
@@ -67,6 +68,7 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
                             class: "flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 dark:text-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed",
                             disabled: current_page == 0,
                             onclick: move |_| {
+                                table.set_loading(true);
                                 table.set_page(current_page.saturating_sub(1));
                             },
                             span { "←" }
@@ -92,6 +94,7 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
                                                 },
                                             ),
                                             onclick: move |_| {
+                                                table.set_loading(true);
                                                 table.set_page(page);
                                             },
                                             "{page + 1}"
@@ -107,6 +110,7 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
                                     class: "flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 dark:text-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed",
                                     disabled: current_page == total_pages.saturating_sub(1) || total_pages == 0,
                                     onclick: move |_| {
+                                        table.set_loading(true);
                                         table.set_page((current_page + 1).min(total_pages.saturating_sub(1)));
                                     },
                                     span { "→" }

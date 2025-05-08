@@ -38,16 +38,15 @@ where
             items_per_page: 10,
             total_items: 0,
         }),
+        is_loading: use_signal(|| true),
     };
 
     let page = state.page_state.read().to_owned();
     let current_page = page.current_page;
     let items_per_page = page.items_per_page;
-    // let items_per_page = current_page * page.items_per_page;
-    // let end = start + page.items_per_page;
     let sort = state.sort_state.read().to_owned();
 
-    let data_resource = use_resource(use_reactive!(|current_page,items_per_page, sort| {
+    let data_resource = use_resource(use_reactive!(|current_page, items_per_page, sort| {
         let value = fetch_fn.to_owned();
         let sort = sort.to_owned();
         let start = current_page * page.items_per_page;
@@ -66,9 +65,27 @@ where
     }));
 
     use_effect(use_reactive!(|(data_resource)| {
-        if let Some((prop_data, total_items)) = (&*data_resource)() {
-            state.prop_data.set(prop_data.to_owned());
-            state.page_state.write().total_items = total_items;
+        if let Ok(ref_data) = data_resource.try_read() {
+            println!("data_resource: {:?}", ref_data);
+            if let Some((prop_data, total_items)) = &*ref_data {
+                state.prop_data.set(prop_data.to_owned());
+                state.page_state.write().total_items = *total_items;
+                state.is_loading.set(false);
+            } else {
+                println!("No data available");
+                state.prop_data.set(PropData {
+                    data_vec: Vec::<T>::new(),
+                });
+                state.page_state.write().total_items = 0;
+                state.is_loading.set(false);
+            }
+        } else {
+            println!("Failed to read data resource");
+            state.prop_data.set(PropData {
+                data_vec: Vec::<T>::new(),
+            });
+            state.page_state.write().total_items = 0;
+            // Keep loading state true if we failed to read
         }
     }));
 
@@ -86,12 +103,17 @@ where
     prop_col: Signal<PropCol<T>>,
     sort_state: Signal<SortState>,
     page_state: Signal<PageState>,
+    is_loading: Signal<bool>,
 }
 
 impl<T> UseTable<T>
 where
     T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug,
 {
+    pub fn is_loading(&self) -> bool {
+        *self.is_loading.read()
+    }
+
     pub fn sort_by_field(&mut self, field_name: &str) {
         let sort_col = self.get_sort_col();
         let sort_desc = self.get_sort_state();
@@ -135,5 +157,9 @@ where
 
     pub fn set_items_per_page(&mut self, items: usize) {
         self.page_state.write().items_per_page = items;
+    }
+
+    pub fn set_loading(&mut self, loading: bool) {
+        self.is_loading.set(loading);
     }
 }

@@ -9,7 +9,7 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
     #[props(default = TableConfig::default())] 
     class: TableConfig,
     table: UseTable<T>,
-    children:Element,
+    children: Element,
 ) -> Element {
     let class_head = class.to_owned();
     let class_main = class.to_owned();
@@ -39,15 +39,32 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                     {
                         let class = class_main.to_owned();
                         rsx! {
-                            for row in table.get_rows().into_iter() {
-                                TableRow { class: class.to_owned().table_row,
-                                    for col in table.get_cols().into_iter() {
-                                        TableCell { class: class.to_owned().table_cell,
-                                            {
-                                                let row_copy = row.to_owned();
-                                                let col_copy = col.to_owned();
-                                                rsx! {
-                                                    DefaultChildren { row: row_copy, col: col_copy }
+                            if table.is_loading() {
+                                // Show skeleton rows with the same number as the current page size
+                                for _ in 0..table.get_page_state().items_per_page.min(10) {
+                                    TableRow { class: class.to_owned().table_row,
+                                        for _ in table.get_cols().into_iter() {
+                                            TableCell { class: class.to_owned().table_cell,
+                                                div {
+                                                    class: "h-4 bg-gray-200 rounded animate-pulse",
+                                                    ""
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                // Show actual data when loaded
+                                for row in table.get_rows().into_iter() {
+                                    TableRow { class: class.to_owned().table_row,
+                                        for col in table.get_cols().into_iter() {
+                                            TableCell { class: class.to_owned().table_cell,
+                                                {
+                                                    let row_copy = row.to_owned();
+                                                    let col_copy = col.to_owned();
+                                                    rsx! {
+                                                        DefaultChildren { row: row_copy, col: col_copy }
+                                                    }
                                                 }
                                             }
                                         }
