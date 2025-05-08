@@ -5,6 +5,13 @@
 
 A powerful, customizable table component library for Dioxus applications with built-in sorting, pagination, and filtering capabilities.
 
+
+## on YouTube 🎥  
+[![Dioxus Table Tutorial](https://img.youtube.com/vi/EDeWMxA82Mg/0.jpg)](https://www.youtube.com/watch?v=EDeWMxA82Mg)  
+👉 **Click the thumbnail or [here](https://www.youtube.com/watch?v=EDeWMxA82Mg) to watch the video.**
+
+
+
 ## Features
 
 - 📊 Fully reactive data tables
