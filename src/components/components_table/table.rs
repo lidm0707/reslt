@@ -44,12 +44,8 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                                 for _ in 0..table.get_page_state().items_per_page.min(10) {
                                     TableRow { class: class.to_owned().table_row,
                                         for _ in table.get_cols().into_iter() {
-                                            TableCell { class: class.to_owned().table_cell,
-                                                div {
-                                                    class: "h-4 bg-gray-100 dark:bg-gray-700 rounded animate-pulse opacity-50",
-                                                    ""
-                                                }
-                                            }
+                                            TableCell { class: class.to_owned().table_cell, Skeleton {
+                                            } }
                                         }
                                     }
                                 }
