@@ -65,6 +65,7 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                         let class = class_main.to_owned();
                         rsx! {
                             if table.is_loading() {
+                                // first open it not show skeleton
                                 // Show skeleton rows with the same number as the current page size
                                 for _ in 0..table.get_page_state().items_per_page.max(10) {
                                     TableRow { class: class.to_owned().table_row,
