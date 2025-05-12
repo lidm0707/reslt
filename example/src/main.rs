@@ -21,18 +21,7 @@ fn CheckMethod() -> Element {
     }
 }
 
-#[component]
-fn BtnCheckALl(data: Vec<Person>) -> Element {
-    let mut checkbox = use_context::<UseCheckBox<Person>>();
-    rsx! {
-        button {
-            onclick: move |_| {
-                checkbox.set_all_checked(data.to_owned());
-            },
-            "Check All"
-        }
-    }
-}
+
 
 #[component]
 fn App() -> Element {
@@ -50,11 +39,13 @@ fn App() -> Element {
                     checkbox_method: rsx! {
                         CheckMethod {}
                     },
+                    column_check:true
                 }
             }
-        
+
         }
-    }}
+    }
+}
 
 fn main() {
     dioxus::launch(App);
