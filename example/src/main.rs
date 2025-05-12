@@ -45,14 +45,7 @@ fn App() -> Element {
 
         ToastContainer {
             Modal {
-                CheckBox {
-                    checkbox,
-                    method: rsx! {
-                        CheckMethod {}
-                    },
-                    BtnCheckALl{data: table.get_rows().to_owned()}
-                    DefaultTable { table }
-                }
+                DefaultTable { table }
             }
         }
     }}

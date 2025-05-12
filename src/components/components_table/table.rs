@@ -6,27 +6,34 @@ use serde::Serialize;
 
 #[component]
 pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>(
-    #[props(default = TableConfig::default())] 
-    class: TableConfig,
+    #[props(default = TableConfig::default())] class: TableConfig,
     table: UseTable<T>,
     children: Element,
+    #[props(default = rsx! {})] checkbox_method: Element,
 ) -> Element {
     let class_head = class.to_owned();
     let class_main = class.to_owned();
+    let checkbox = use_checkbox::<T>();
     rsx! {
         ContainerTable {
-            TableMain { class: class.table_main,
-                TableHeader { class: class.table_header,
-                    TableRow {
-                        {
-                            let class = class_head.to_owned();
-                            rsx! {
-                                for col in table.get_cols().into_iter() {
-                                    TableHead { class: class.to_owned().table_head,
-                                        {
-                                            let value = table.to_owned();
-                                            rsx! {
-                                                ArrowSort { table: value.to_owned(), col: col.to_owned() }
+            CheckBox {
+                checkbox,
+                method: rsx! {
+                    {checkbox_method}
+                },
+                TableMain { class: class.table_main,
+                    TableHeader { class: class.table_header,
+                        TableRow {
+                            {
+                                let class = class_head.to_owned();
+                                rsx! {
+                                    for col in table.get_cols().into_iter() {
+                                        TableHead { class: class.to_owned().table_head,
+                                            {
+                                                let value = table.to_owned();
+                                                rsx! {
+                                                    ArrowSort { table: value.to_owned(), col: col.to_owned() }
+                                                }
                                             }
                                         }
                                     }
@@ -34,32 +41,32 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                             }
                         }
                     }
-                }
-                TableBody {
-                    {
-                        let class = class_main.to_owned();
-                        rsx! {
-                            if table.is_loading() {
-                                // Show skeleton rows with the same number as the current page size
-                                for _ in 0..table.get_page_state().items_per_page.min(10) {
-                                    TableRow { class: class.to_owned().table_row,
-                                        for _ in table.get_cols().into_iter() {
-                                            TableCell { class: class.to_owned().table_cell, Skeleton {
-                                            } }
+                    TableBody {
+                        {
+                            let class = class_main.to_owned();
+                            rsx! {
+                                if table.is_loading() {
+                                    // Show skeleton rows with the same number as the current page size
+                                    for _ in 0..table.get_page_state().items_per_page.min(10) {
+                                        TableRow { class: class.to_owned().table_row,
+                                            for _ in table.get_cols().into_iter() {
+                                                TableCell { class: class.to_owned().table_cell, Skeleton {
+                                                } }
+                                            }
                                         }
                                     }
-                                }
-                            } else {
-                                // Show actual data when loaded
-                                for row in table.get_rows().into_iter() {
-                                    TableRow { class: class.to_owned().table_row,
-                                        for col in table.get_cols().into_iter() {
-                                            TableCell { class: class.to_owned().table_cell,
-                                                {
-                                                    let row_copy = row.to_owned();
-                                                    let col_copy = col.to_owned();
-                                                    rsx! {
-                                                        DefaultChildren { row: row_copy, col: col_copy }
+                                } else {
+                                    // Show actual data when loaded
+                                    for row in table.get_rows().into_iter() {
+                                        TableRow { class: class.to_owned().table_row,
+                                            for col in table.get_cols().into_iter() {
+                                                TableCell { class: class.to_owned().table_cell,
+                                                    {
+                                                        let row_copy = row.to_owned();
+                                                        let col_copy = col.to_owned();
+                                                        rsx! {
+                                                            DefaultChildren { row: row_copy, col: col_copy }
+                                                        }
                                                     }
                                                 }
                                             }
@@ -70,9 +77,9 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                         }
                     }
                 }
+                Pagination { table: table.to_owned() }
+                {children}
             }
-            Pagination { table: table.to_owned() }
-            {children}
         }
     }
 }
