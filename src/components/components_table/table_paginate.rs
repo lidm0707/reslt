@@ -69,7 +69,6 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
                             class: "flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 dark:text-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed",
                             disabled: table.is_loading() || current_page == 0,
                             onclick: move |_| {
-                                table.set_loading(true);
                                 table.set_page(current_page.saturating_sub(1));
                             },
                             span { "←" }
@@ -96,7 +95,6 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
                                             ),
                                             disabled: table.is_loading() || is_current,
                                             onclick: move |_| {
-                                                table.set_loading(true);
                                                 table.set_page(page);
                                             },
                                             "{page + 1}"
@@ -113,7 +111,6 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
                                     disabled: table.is_loading() || current_page == total_pages.saturating_sub(1)
                                         || total_pages == 0,
                                     onclick: move |_| {
-                                        table.set_loading(true);
                                         table.set_page((current_page + 1).min(total_pages.saturating_sub(1)));
                                     },
                                     span { "→" }

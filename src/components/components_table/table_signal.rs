@@ -47,6 +47,7 @@ where
     let sort = state.sort_state.read().to_owned();
 
     let data_resource = use_resource(use_reactive!(|current_page, items_per_page, sort| {
+        state.is_loading.set(true);
         let value = fetch_fn.to_owned();
         let sort = sort.to_owned();
         let start = current_page * page.items_per_page;
