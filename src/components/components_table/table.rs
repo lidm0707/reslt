@@ -67,7 +67,6 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                             if table.is_loading() {
                                 // Show skeleton rows with the same number as the current page size
                                 for _ in 0..table.get_page_state().items_per_page.max(10) {
-                                    {println!("min page table {}",table.get_page_state().items_per_page.max(10))}
                                     TableRow { class: class.to_owned().table_row,
                                         if column_check {
                                             TableCell { class: class.to_owned().table_head, Skeleton {
