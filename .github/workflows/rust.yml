@@ -11,7 +11,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
     - name: Add repositories and install missing packages
       run: |
         sudo apt-get update
-        sudo apt-get install -y libssl-dev && libssl-dev && libpq-dev && libc6 && ca-certificates
+        sudo apt-get install -y libssl-dev libpq-dev libc6 ca-certificates
 
     - name: Build
       run: cargo build --verbose
