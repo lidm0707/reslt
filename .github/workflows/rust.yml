@@ -19,7 +19,7 @@ jobs:
     - name: Add repositories and install missing packages
       run: |
         sudo apt-get update
-        sudo apt-get install -y libgtk-3-dev libsoup-3.0-dev
+        sudo apt-get install -y libgtk-3-dev libsoup-3.0-dev libjavascriptcoregtk-4.1-dev
 
     - name: Build
       run: cargo build --verbose
