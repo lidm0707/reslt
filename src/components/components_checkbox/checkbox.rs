@@ -1,34 +1,27 @@
-use crate::prelude::*;
-use dioxus::prelude::*;
-use serde::Serialize;
-use std::fmt::Debug;
 use crate::components::components_checkbox::checkbox_config::CheckboxConfig;
+use dioxus::prelude::*;
+
 
 #[component]
-pub fn CheckBox<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>(
-    checkbox: UseCheckBox<T>,
+pub fn CheckBox(
     #[props(default = CheckboxConfig::default())] config: CheckboxConfig,
+    visible:bool,
     method: Element,
-    children: Element,
 ) -> Element {
-    provide_context(checkbox);
-    let is_visible = if use_context::<UseCheckBox<T>>().get_checked_data().len() > 0 {
+    let is_visible = if visible {
         "visible"
     } else {
         "invisible"
     };
+    println!("is visible {}", visible);
+    
     rsx! {
-        div { 
-            class: "relative", // ใช้ relative เพื่อให้จัดการ context ได้สะดวก
-            // Pop-up ที่แสดงผลเมื่อ is_visible == "visible"
-            div {
-                class: format!(
-                    "absolute bottom-10 left-[calc(50%-10rem)] w-xs flex flex-col justify-center items-center bg-white p-4 gap-4 border border-gray-200 shadow-lg rounded-lg z-40 {}", 
-                    is_visible
-                ),
-                {method} // Logic สำหรับเนื้อหาของ pop-up
-            }
-            {children}
+        div {
+            class: format!(
+                "absolute bottom-10 z-40 left-[calc(50%-10rem)] w-xs flex flex-col justify-center items-center bg-white p-4 gap-4 border border-gray-200 shadow-lg rounded-lg  {}",
+                is_visible,
+            ),
+            {method}
         }
     }
 }
@@ -53,11 +46,9 @@ pub fn SingleCheckbox(
                 input {
                     r#type: "checkbox",
                     class: input_class,
-                    checked: checked,
-                    disabled: disabled,
-                    onchange: move |evt| {
-                        onchange.call(evt.value().parse().unwrap_or(false))
-                    }
+                    checked,
+                    disabled,
+                    onchange: move |evt| { onchange.call(evt.value().parse().unwrap_or(false)) },
                 }
                 label { class: config.checkbox_label, "{label}" }
             }

@@ -13,7 +13,7 @@ pub struct TableConfig {
 impl TableConfig {
     pub fn default() -> Self {      
         let config =  Self {
-            table_main: "w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400".to_string(),
+            table_main: "w-full h-100 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400".to_string(),
             table_header: "sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ".to_string(),
             table_head: "px-6 py-3".to_string(),
             table_body: "".to_string(),

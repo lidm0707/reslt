@@ -251,9 +251,6 @@
   .bottom-0 {
     bottom: calc(var(--spacing) * 0);
   }
-  .bottom-1 {
-    bottom: calc(var(--spacing) * 1);
-  }
   .bottom-10 {
     bottom: calc(var(--spacing) * 10);
   }
@@ -376,6 +373,9 @@
   }
   .h-200 {
     height: calc(var(--spacing) * 200);
+  }
+  .h-fit {
+    height: fit-content;
   }
   .h-full {
     height: 100%;

@@ -118,6 +118,7 @@ pub fn create_col() -> PropCol<Person> {
                     use_effect(use_reactive!(|(update_check_all)| {
                         checked.set(update_check_all);
                     }));
+                    println!("click");
                     rsx! {input{
                         r#type:"checkbox",
                         checked:checked(),
