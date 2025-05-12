@@ -19,7 +19,7 @@ pub fn ActionDropdown(item: Element) -> Element {
 
             div {
                 class: format!(
-                    "absolute z-10 bg-white dark:bg-gray-800  rounded-lg shadow-xl w-44 border border-gray-200 dark:border-gray-700   {isVisible}",
+                    "absolute z-30 bg-white dark:bg-gray-800  rounded-lg shadow-xl w-44 border border-gray-200 dark:border-gray-700   {isVisible}",
                 ),
                 {item}
             }
