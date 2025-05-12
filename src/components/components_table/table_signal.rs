@@ -66,7 +66,6 @@ where
 
     use_effect(use_reactive!(|(data_resource)| {
         if let Ok(ref_data) = data_resource.try_read() {
-            println!("data_resource: {:?}", ref_data);
             if let Some((prop_data, total_items)) = &*ref_data {
                 state.prop_data.set(prop_data.to_owned());
                 state.page_state.write().total_items = *total_items;
