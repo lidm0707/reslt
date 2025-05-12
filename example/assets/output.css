@@ -251,6 +251,9 @@
   .bottom-0 {
     bottom: calc(var(--spacing) * 0);
   }
+  .bottom-1 {
+    bottom: calc(var(--spacing) * 1);
+  }
   .bottom-10 {
     bottom: calc(var(--spacing) * 10);
   }
@@ -368,6 +371,12 @@
   .h-30 {
     height: calc(var(--spacing) * 30);
   }
+  .h-100 {
+    height: calc(var(--spacing) * 100);
+  }
+  .h-200 {
+    height: calc(var(--spacing) * 200);
+  }
   .h-full {
     height: 100%;
   }
@@ -409,6 +418,9 @@
   }
   .w-full {
     width: 100%;
+  }
+  .w-screen {
+    width: 100vw;
   }
   .w-xs {
     width: var(--container-xs);

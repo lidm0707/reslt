@@ -84,7 +84,7 @@ pub fn ContainerTable(
     class: Option<String>, children: Element
 ) -> Element {
     rsx! {
-        div { class: "overflow-y-scroll  max-h-200", {children} }
+        div { class: "overflow-y-scroll h-200 w-screen", {children} }
     }
 }
 

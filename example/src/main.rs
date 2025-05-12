@@ -44,8 +44,11 @@ fn App() -> Element {
         document::Stylesheet { href: asset!("/assets/output.css") }
 
         ToastContainer {
-            Modal {
-                DefaultTable { table }
+            DefaultTable {
+                table,
+                checkbox_method: rsx! {
+                    CheckMethod {}
+                },
             }
         }
     }}
