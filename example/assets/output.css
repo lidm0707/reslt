@@ -371,12 +371,6 @@
   .h-100 {
     height: calc(var(--spacing) * 100);
   }
-  .h-200 {
-    height: calc(var(--spacing) * 200);
-  }
-  .h-fit {
-    height: fit-content;
-  }
   .h-full {
     height: 100%;
   }

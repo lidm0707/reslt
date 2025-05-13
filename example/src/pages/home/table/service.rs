@@ -37,7 +37,7 @@ pub  fn get_person_data(
                         }
                     }
                     _ => {
-                        eprintln!("Invalid sort key: {}", key);
+                        println!("Invalid sort key: {}", key);
                     }
                 }
 
