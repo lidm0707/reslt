@@ -7,21 +7,14 @@ use crate::prelude::*;
 #[component]
 pub fn TableHeader(class: Option<String>, children: Element) -> Element {
     rsx! {
-        thead {
-            class:  class.unwrap_or_default(),
-            {children}
-        }
+        thead { class: class.unwrap_or_default(), {children} }
     }
 }
 
 #[component]
 pub fn TableHead(class: Option<String>, children: Element) -> Element {
     rsx! {
-        th {
-            class: class.unwrap_or_default(),
-            scope: "col",
-            {children}
-        }
+        th { class: class.unwrap_or_default(), scope: "col", {children} }
     }
 }
 
@@ -49,12 +42,9 @@ pub fn TableCell(class: Option<String>, children: Element) -> Element {
 #[component]
 pub fn TableMain(class: Option<String>, children: Element) -> Element {
     rsx! {
-        div { class: "",
-            div { class: "",
-                div {
-                    table { class: class.unwrap_or_default(), {children} }
-                }
-            }
+
+        div {
+            table { class: class.unwrap_or_default(), {children} }
         }
     }
 }
