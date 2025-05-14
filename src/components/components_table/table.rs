@@ -55,8 +55,13 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                 TableBody {
                     {
                         let class = class_main.to_owned();
+                        let load = table.is_loading() ;
+                        let is_empty = table.get_rows().is_empty();
+                        // is_emplty for temp fix beacuse idk for first time doesn't work skeleton
+                        // load for when we are loading data
+                        // I guess this promble is data rance for table_signal when first load in render time
                         {
-                            if table.is_loading() {
+                            if load || is_empty {
                                 rsx! {
                                     for _ in 0..table.get_page_state().items_per_page.max(10) {
                                         TableRow { class: class.to_owned().table_row,
@@ -67,7 +72,6 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                                             for _ in table.get_cols().into_iter() {
                                                 TableCell { class: class.to_owned().table_cell, Skeleton {
                                                 } }
-                                                {{ println!("test skeleton") }}
                                             }
                                         }
                                     }
