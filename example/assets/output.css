@@ -254,14 +254,17 @@
   .bottom-10 {
     bottom: calc(var(--spacing) * 10);
   }
-  .left-1 {
-    left: calc(var(--spacing) * 1);
-  }
   .left-1\/2 {
     left: calc(1/2 * 100%);
   }
   .left-\[calc\(50\%-10rem\)\] {
     left: calc(50% - 10rem);
+  }
+  .z-2 {
+    z-index: 2;
+  }
+  .z-3 {
+    z-index: 3;
   }
   .z-10 {
     z-index: 10;

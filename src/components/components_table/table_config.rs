@@ -14,7 +14,7 @@ impl TableConfig {
     pub fn default() -> Self {      
         let config =  Self {
             table_main: "w-full h-100 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400".to_string(),
-            table_header: "sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ".to_string(),
+            table_header: "sticky z-3 top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ".to_string(),
             table_head: "px-6 py-3".to_string(),
             table_body: "".to_string(),
             table_row: "bg-white border-b border-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600".to_string(),
