@@ -74,6 +74,7 @@ pub fn HeadCellCheckBox<T: 'static + Serialize + Eq + Clone + FieldAccessible + 
                 rsx! {
                     input {
                         r#type: "checkbox",
+                        checked: use_context::<UseCheckBox<T>>().is_all_checked(),
                         onchange: move |_| {
                             use_context::<UseCheckBox<T>>().set_all_checked(data.to_owned());
                         },
