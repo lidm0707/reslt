@@ -4,7 +4,7 @@ use reslt::prelude::PropData;
 
 use super::{hard_data::PERSON_ARRAY, table_data::Person};
 
-pub  fn get_person_data(
+pub fn get_person_data(
     start: usize,
     end: usize,
     sort: (String, bool),
@@ -74,7 +74,6 @@ pub  fn get_person_data(
     })
 }
 
-
 pub async fn delete_row(id: u32) {
     tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
     let mut array = PERSON_ARRAY.lock().unwrap(); // เข้าถึง Mutex
@@ -86,6 +85,24 @@ pub async fn delete_row(id: u32) {
     if let Some(person) = array.get(0) {
         println!("{}", array.len());
         println!("{:?}", person);
+    } else {
+        println!("No data available");
+    }
+}
+
+pub async fn delete_rows(vec_id: Vec<u32>) {
+    tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+    let mut array = PERSON_ARRAY.lock().unwrap(); // เข้าถึง Mutex
+    *array = array
+        .clone()
+        .into_iter()
+        .filter(|person| !vec_id.contains(&person.id))
+        .collect();
+
+    println!("array {:?}",array);
+    if let Some(person) = array.get(0) {
+        println!("rowss{}", array.len());
+        println!("rowss{:?}", person);
     } else {
         println!("No data available");
     }

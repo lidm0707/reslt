@@ -1,27 +1,44 @@
 use dioxus::prelude::*;
 use example::pages::home::table::{
-    service::get_person_data, table_col::create_col, table_data::Person,
+    service::{delete_rows, get_person_data},
+    table_col::create_col,
+    table_data::Person,
 };
 use reslt::prelude::*;
 
 #[component]
 fn CheckMethod() -> Element {
+    let context = use_context::<UseCheckBox<Person>>().to_owned();
+
+    let checked_data = context.get_checked_data();
+    let count = checked_data.len();
+    let ids_to_delete: Vec<u32> = context
+        .get_checked_data()
+        .into_iter()
+        .map(|row| row.id)
+        .collect();
+
+  
+
     rsx! {
-        {
-            use_context::<UseCheckBox<Person>>()
-                .to_owned()
-                .get_checked_data()
-                .into_iter()
-                .map(|row| {
-                    rsx! {
-                        div { "ID: {row.id}, Name: {row.name}, Age: {row.age}, City: {row.city}" }
+        div {
+            div { "Selected Count: {count}" }
+            button {
+                class: "px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition",
+                onclick: move |_| {
+                    let ids_to_delete = ids_to_delete.clone();
+                    async move {
+                        delete_rows(ids_to_delete).await;
+                        use_context::<Resource<(PropData<Person>, usize)>>().restart();
+                        use_context::<Signal<UseToast>>()().error("Deleted");
+                        use_context::<UseCheckBox<Person>>().set_all_checked(Vec::new());
                     }
-                })
+                },
+                "Delete Selected"
+            }
         }
     }
 }
-
-
 
 #[component]
 fn App() -> Element {
@@ -39,10 +56,9 @@ fn App() -> Element {
                     checkbox_method: rsx! {
                         CheckMethod {}
                     },
-                    column_check:true
+                    column_check: true,
                 }
             }
-
         }
     }
 }
