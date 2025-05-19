@@ -107,3 +107,16 @@ pub async fn delete_rows(vec_id: Vec<u32>) {
         println!("No data available");
     }
 }
+
+
+
+pub async fn update_row(updated_row: Person) -> Result<(), String> {
+    let mut array = PERSON_ARRAY.lock().unwrap();
+    if let Some(person) = array.iter_mut().find(|person| person.id == updated_row.id) {
+        *person = updated_row;
+        Ok(())
+    } else {
+        Err("Person not found".to_string())
+    }
+}
+
