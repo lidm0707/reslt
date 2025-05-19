@@ -35,7 +35,7 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
     page_numbers.dedup();
 
     rsx! {
-        div { class: "sticky bottom-0 z-10 w-full border-t border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700",
+        div { class: "sticky bottom-0  w-full border-t border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700",
             nav { class: format!("relative px-4 py-3 sm:px-6 {}", class.unwrap_or_default()),
                 div { class: "flex items-center justify-between space-x-4",
                     // Items per page dropdown
