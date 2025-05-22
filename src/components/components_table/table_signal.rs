@@ -38,7 +38,7 @@ where
             items_per_page: 10,
             total_items: 0,
         }),
-        is_loading: use_signal(|| true),
+        is_loading: use_signal(|| false),
     };
 
     let page = state.page_state.read().to_owned();
@@ -63,39 +63,61 @@ where
             )
             .await
         };
-        
+
         resualt
     }));
 
     use_effect(use_reactive!(|(data_resource)| {
-        if let Ok(ref_data) = data_resource.try_read() {
-            if let Some((prop_data, total_items)) = &*ref_data {
-                state.prop_data.set(prop_data.to_owned());
-                state.page_state.write().total_items = *total_items;
-                let total_pages = (total_items + items_per_page.saturating_sub(1))
-                    / items_per_page;
+        match &*data_resource.read_unchecked() {
+            Some(res) => {
+                state.prop_data.set(res.0.to_owned());
+                state.page_state.write().total_items = res.1;
+                let total_pages = (res.1 + items_per_page.saturating_sub(1)) / items_per_page;
                 if current_page >= total_pages {
                     state.page_state.write().current_page = total_pages.saturating_sub(1);
                 }
-                
-            } else {
-                println!("No data available");
+                state.is_loading.set(false);
+
+            }
+            None => {
                 state.prop_data.set(PropData {
                     data_vec: Vec::<T>::new(),
                 });
                 state.page_state.write().total_items = 0;
-                
+                state.page_state.write().current_page = 0;
+                state.page_state.write().items_per_page = 10;
+                state.is_loading.set(true);
             }
-        } else {
-            println!("Failed to read data resource");
-            state.prop_data.set(PropData {
-                data_vec: Vec::<T>::new(),
-            });
-            state.page_state.write().total_items = 0;
-            // Keep loading state true if we failed to read
-        }
 
-        state.is_loading.set(false);
+                // state.prop_data.set(res.0.to_owned());
+                // state.page_state.write().total_items = res.1;
+
+        }
+        // if let Ok(ref_data) = data_resource.try_read() {
+        //     if let Some((prop_data, total_items)) = &*ref_data {
+        //         state.prop_data.set(prop_data.to_owned());
+        //         state.page_state.write().total_items = *total_items;
+        //         let total_pages = (total_items + items_per_page.saturating_sub(1)) / items_per_page;
+        //         if current_page >= total_pages {
+        //             state.page_state.write().current_page = total_pages.saturating_sub(1);
+        //         }
+        //     } else {
+        //         println!("No data available");
+        //         state.prop_data.set(PropData {
+        //             data_vec: Vec::<T>::new(),
+        //         });
+        //         state.page_state.write().total_items = 0;
+        //     }
+        // } else {
+        //     println!("Failed to read data resource");
+        //     state.prop_data.set(PropData {
+        //         data_vec: Vec::<T>::new(),
+        //     });
+        //     state.page_state.write().total_items = 0;
+        //     // Keep loading state true if we failed to read
+        // }
+
+        // state.is_loading.set(false);
     }));
 
     use_context_provider(|| data_resource);
