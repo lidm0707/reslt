@@ -8,3 +8,6 @@ pub mod table_dropdown;
 pub mod table_config;
 pub mod table_arrow_sort;
 pub mod table_paginate;
+
+#[cfg(test)]
+pub mod table_test;
