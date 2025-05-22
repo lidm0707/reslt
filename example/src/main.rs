@@ -1,7 +1,7 @@
 use dioxus::prelude::*;
 use example::pages::home::table::{
-    service::{delete_rows, get_person_data},
     modal::ModalCreate,
+    service::{delete_rows, get_person_data},
     table_col::create_col,
     table_data::Person,
 };
@@ -18,8 +18,6 @@ fn CheckMethod() -> Element {
         .into_iter()
         .map(|row| row.id)
         .collect();
-
-  
 
     rsx! {
         div {
@@ -42,27 +40,36 @@ fn CheckMethod() -> Element {
 }
 
 #[component]
+fn FancyButton() -> Element {
+    rsx! {      button {
+        onclick: move |_| {
+            use_context::<UseModal>().set_title("Create");
+            use_context::<UseModal>().set_content(rsx! {
+                ModalCreate {}
+            });
+            use_context::<UseModal>().open();
+
+        },
+        "Create"
+    }}
+}
+
+#[component]
 fn App() -> Element {
     let cols = create_col();
     let table = use_table(get_person_data, cols.to_owned());
-    let checkbox = use_checkbox::<Person>();
-    println!("{:?}", checkbox);
+    // let checkbox = use_checkbox::<Person>();
+    // println!("{:?}", checkbox);
     rsx! {
         document::Stylesheet { href: asset!("/assets/output.css") }
 
         ToastContainer {
             Modal {
-                div{
-                    onclick: move |_| {
-                        use_context::<UseModal>().set_title("Create");
-                        use_context::<UseModal>()
-                            .set_content(rsx! {
-                                ModalCreate {}
-                            });
-                        use_context::<UseModal>().open();
-                    },
-                    "Create"
-                },
+                div {
+                FancyButton{}
+                    
+
+                }
                 DefaultTable {
                     table,
                     checkbox_method: rsx! {
