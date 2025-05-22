@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
 use example::pages::home::table::{
     service::{delete_rows, get_person_data},
+    modal::ModalCreate,
     table_col::create_col,
     table_data::Person,
 };
@@ -51,6 +52,17 @@ fn App() -> Element {
 
         ToastContainer {
             Modal {
+                div{
+                    onclick: move |_| {
+                        use_context::<UseModal>().set_title("Create");
+                        use_context::<UseModal>()
+                            .set_content(rsx! {
+                                ModalCreate {}
+                            });
+                        use_context::<UseModal>().open();
+                    },
+                    "Create"
+                },
                 DefaultTable {
                     table,
                     checkbox_method: rsx! {

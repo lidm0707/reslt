@@ -1,5 +1,6 @@
 use std::{future::Future, pin::Pin};
 
+use anyhow::Result;
 use reslt::prelude::PropData;
 
 use super::{hard_data::PERSON_ARRAY, table_data::Person};
@@ -99,7 +100,7 @@ pub async fn delete_rows(vec_id: Vec<u32>) {
         .filter(|person| !vec_id.contains(&person.id))
         .collect();
 
-    println!("array {:?}",array);
+    println!("array {:?}", array);
     if let Some(person) = array.get(0) {
         println!("rowss{}", array.len());
         println!("rowss{:?}", person);
@@ -107,8 +108,6 @@ pub async fn delete_rows(vec_id: Vec<u32>) {
         println!("No data available");
     }
 }
-
-
 
 pub async fn update_row(updated_row: Person) -> Result<(), String> {
     let mut array = PERSON_ARRAY.lock().unwrap();
@@ -120,3 +119,8 @@ pub async fn update_row(updated_row: Person) -> Result<(), String> {
     }
 }
 
+pub async fn add_row(add_row: Person) -> Result<()> {
+    let mut array = PERSON_ARRAY.lock().unwrap();
+    array.push(add_row);
+    Ok(())
+}
