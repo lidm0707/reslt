@@ -57,7 +57,14 @@ fn FancyButton() -> Element {
 #[component]
 fn App() -> Element {
     let cols = create_col();
-    let table = use_table(get_person_data, cols.to_owned());
+    let table = use_table(
+        get_person_data,
+        cols.to_owned(),
+        Some(SortState {
+            column: Some("id".to_owned()),
+            descending: true,
+        }),
+    );
     // let checkbox = use_checkbox::<Person>();
     // println!("{:?}", checkbox);
     rsx! {
@@ -67,7 +74,7 @@ fn App() -> Element {
             Modal {
                 div {
                 FancyButton{}
-                    
+
 
                 }
                 DefaultTable {
