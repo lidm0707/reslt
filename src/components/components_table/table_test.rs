@@ -192,7 +192,7 @@ mod tests {
 
         let mutations = vdom.render_immediate_to_vec();
         println!("Second: {:?}", mutations.edits);
-        match &first.edits[0] {
+        match &mutations.edits[0] {
             Mutation::SetText { value, id: _ } => {
                 assert_eq!(value.as_str(), "false",);
             }
