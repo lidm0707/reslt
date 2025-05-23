@@ -17,12 +17,10 @@ pub fn CheckBox(
     println!("is visible {}", visible);
 
     rsx! {
-        div {
-            class: format!(
-                "absolute bottom-10 z-40 left-[calc(50%-10rem)] w-xs flex flex-col justify-center items-center bg-white p-4 gap-4 border border-gray-200 shadow-lg rounded-lg  {}",
-                is_visible,
-            ),
-            {method}
+        div { class: format!("absolute  bottom-35  {}", is_visible),
+            div { class: "fixed z-40 left-[calc(50%-10rem)] w-xs flex flex-col justify-center items-center bg-white p-4 gap-4 border border-gray-200 shadow-lg rounded-lg ",
+                {method}
+            }
         }
     }
 }
@@ -59,7 +57,6 @@ pub fn CellCheckBox<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
         }
     }
 }
-
 
 // 2 component in 1 fn is not good !
 #[component]

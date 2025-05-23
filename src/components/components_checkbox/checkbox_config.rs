@@ -15,7 +15,7 @@ impl CheckboxConfig {
     pub fn default() -> Self {
         let config = Self {
             checkbox_base: "flex items-center".to_string(),
-            checkbox_container: "relative flex items-center".to_string(),
+            checkbox_container: "absolute  flex items-center".to_string(),
             checkbox_input: "h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500".to_string(),
             checkbox_label: "ml-2 text-sm text-gray-700".to_string(),
             checkbox_checked: "bg-primary-600 border-transparent".to_string(),
