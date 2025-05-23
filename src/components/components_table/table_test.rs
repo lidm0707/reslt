@@ -1,13 +1,10 @@
-// src/components/components_table/table_test.rs
 #![allow(non_snake_case)]
 use crate::prelude::FieldAccessible;
 use dioxus::prelude::*;
+use futures::lock::Mutex;
 use serde::{Deserialize, Serialize};
-use std::fmt::Debug;
+use std::{fmt::Debug, sync::LazyLock};
 
-// It's likely that `UseTable` and `TableCol` are part of the `table_signal` and `table_col` modules respectively.
-// Adjust these imports based on your actual module structure.
-// It seems `use_table` is the hook to get `UseTable`.
 use crate::components::components_table::table_signal::use_table;
 
 #[derive(Serialize, Deserialize, Eq, PartialEq, Clone, Debug, FieldAccessible, Default)]
@@ -26,10 +23,21 @@ impl TestItem {
         }
     }
 }
+static TEST_ARRAY: LazyLock<Mutex<Vec<TestItem>>> = LazyLock::new(|| {
+    Mutex::new(vec![
+        TestItem::new(1, "Alice", 30),
+        TestItem::new(2, "Bob", 24),
+        TestItem::new(3, "Charlie", 24),
+        TestItem::new(4, "Diana", 28),
+        TestItem::new(5, "Edward", 40),
+    ])
+});
 
 #[cfg(test)]
 mod tests {
     use std::{future::Future, pin::Pin};
+
+    use dioxus::dioxus_core::Mutation;
 
     use crate::prelude::{Col, PropCol, PropData};
 
@@ -43,19 +51,12 @@ mod tests {
         Box::pin(async move {
             (
                 PropData {
-                    data_vec: vec![
-                        TestItem::new(1, "Alice", 30),
-                        TestItem::new(2, "Bob", 24),
-                        TestItem::new(3, "Charlie", 24),
-                        TestItem::new(4, "Diana", 28),
-                        TestItem::new(5, "Edward", 40),
-                    ],
+                    data_vec: TEST_ARRAY.lock().await.clone(),
                 },
                 5,
             )
         })
     }
-
     fn get_table_cols() -> PropCol<TestItem> {
         PropCol {
             cols: vec![
@@ -81,30 +82,13 @@ mod tests {
         }
     }
 
-    // fn test_modal_initial_state() {
-    //     let mut vdom = VirtualDom::new_with_props(
-    //         move || {
-    //             let modal_signal = use_modal();
-    //             use_context_provider(|| modal_signal.clone());
-    //             assert!(!modal_signal.is_open(), "Modal should be initially closed.");
-    //             rsx! {
-    //                 Modal { config: ModalConfig::default(),
-    //                     p { "Test" }
-    //                 }
-    //             }
-    //         },
-    //         (),
-    //     );
-
-    //     vdom.rebuild_in_place();
-    // }
-
-    #[test]
-    fn test_table_initialization() {
+    #[tokio::test]
+    async fn test_table_initialization() {
         let mut vdom = VirtualDom::new_with_props(
             move || {
                 let cols = get_table_cols();
-                let table = use_table(get_test_data, cols.to_owned());
+                let table = use_table(get_test_data, cols.to_owned(), None);
+
                 assert!(
                     table.get_rows().is_empty(),
                     "Table should be initially empty."
@@ -116,209 +100,149 @@ mod tests {
         );
         vdom.rebuild_in_place();
     }
-    #[component]
-    fn Setdata() -> Element {
-        let cols = get_table_cols();
-        let table = use_table(get_test_data, cols.to_owned());
 
-        println!("Cols: {:?}", cols);
-        println!("Table rows: {:?}", table.get_rows());
-
-        // ตรวจสอบเฉพาะความยาวของข้อมูล
-        // assert_eq!(table.get_rows().len(), 5,);
-
-        rsx! {}
-    }
-
-    #[test]
-     fn test_table_set_data() {
+    #[tokio::test]
+    async fn test_table_set_data() {
         let mut vdom = VirtualDom::new_with_props(
             move || {
-                rsx! {Setdata{}}
+                let cols = get_table_cols();
+                let table = use_table(get_test_data, cols.to_owned(), None);
+                rsx! {for i in table.get_rows(){
+                    "{i.name}"
+                "{i.age}"
+                "{i.id}"
+
+                }}
             },
             (),
         );
+
         vdom.rebuild_in_place();
+        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+        let mutations = vdom.render_immediate_to_vec();
+        assert_eq!(
+            mutations.edits.len(),
+            16,
+            "The number of mutations does not match the expected value."
+        );
+        let expected_values = [
+            "Alice", "30", "1", "Bob", "24", "2", "Charlie", "24", "3", "Diana", "28", "4",
+            "Edward", "40", "5",
+        ];
+
+        for (i, expected) in expected_values.iter().enumerate() {
+            match &mutations.edits[i] {
+                Mutation::CreateTextNode { value, id: _ } => {
+                    assert_eq!(
+                        value.as_str(),
+                        *expected,
+                        "ค่าที่ edit ลำดับ {} ไม่ตรง (found: '{}', expected: '{}')",
+                        i,
+                        value,
+                        expected
+                    );
+                }
+                other => println!("edit ลำดับ {} ไม่ใช่ CreateTextNode: {:?}", i, other),
+            }
+        }
     }
-    // assert!(
-    //     !table.get_rows().is_empty(),
-    //     "Table should not be empty after setting data."
-    // );
 
-    //     #[test]
-    //     fn test_table_loading_state() {
-    //         run_table_test(|| {
-    //             let mut table = use_table::<TestItem>(, || get_table_cols(), || vec![]);
+    #[test]
+    fn test_table_column_manipulation() {
+        let mut vdom = VirtualDom::new_with_props(
+            move || {
+                let cols = get_table_cols();
+                let table = use_table(get_test_data, cols.to_owned(), None);
+                rsx! {for i in table.get_cols(){
+                    "{i.head}"
+                }}
+            },
+            (),
+        );
 
-    //             table.set_loading(true);
-    //             assert!(
-    //                 table.is_loading(),
-    //                 "is_loading() should be true after set_loading(true)."
-    //             );
+        let first = vdom.rebuild_to_vec();
+        println!("First: {:?}", first.edits);
+        assert_eq!(
+            first.edits.len(),
+            4,
+            "The number of mutations does not match the expected value."
+        );
+    }
 
-    //             table.set_loading(false);
-    //             assert!(
-    //                 !table.is_loading(),
-    //                 "is_loading() should be false after set_loading(false)."
-    //             );
-    //         });
-    //     }
+    #[tokio::test]
+    async fn test_table_loading_state() {
+        let mut vdom = VirtualDom::new_with_props(
+            move || {
+                let cols = get_table_cols();
+                let table = use_table(get_test_data, cols.to_owned(), None);
+                rsx! {"{table.is_loading()}"}
+            },
+            (),
+        );
 
-    //     #[test]
-    //     fn test_table_pagination() {
-    //         run_table_test(|| {
-    //             let mut table = use_table::<TestItem>(, || get_table_cols(), || vec![]);
-    //             let data = (0..25)
-    //                 .map(|i| TestItem::new(i, &format!("Item {}", i), 20 + i, None))
-    //                 .collect::<Vec<_>>();
-    //             table.set_data(data.clone());
+        let first = vdom.rebuild_to_vec();
+        println!("First: {:?}", first.edits);
+        match &first.edits[0] {
+            Mutation::CreateTextNode { value, id: _ } => {
+                assert_eq!(value.as_str(), "true",);
+            }
+            other => println!("edit ลำดับ {} ไม่ใช่ CreateTextNode: {:?}", 0, other),
+        }
+        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
 
-    //             assert_eq!(table.get_page_state().items_per_page, 10);
-    //             assert_eq!(table.get_page_state().total_items, 25);
-    //             assert_eq!(
-    //                 table.get_page_state().total_pages,
-    //                 3,
-    //                 "Should be 3 pages for 25 items, 10 per page."
-    //             );
-    //             assert_eq!(
-    //                 table.get_page_state().current_page,
-    //                 1,
-    //                 "Current page should be 1 initially."
-    //             );
-    //             assert_eq!(
-    //                 table.get_rows().len(),
-    //                 10,
-    //                 "Should show 10 items on page 1."
-    //             );
-    //             if !table.get_rows().is_empty() {
-    //                 // Guard against empty rows before accessing index 0
-    //                 assert_eq!(table.get_rows()[0].id, 0);
-    //             }
+        let mutations = vdom.render_immediate_to_vec();
+        println!("Second: {:?}", mutations.edits);
+        match &first.edits[0] {
+            Mutation::SetText { value, id: _ } => {
+                assert_eq!(value.as_str(), "false",);
+            }
+            other => panic!("edit ลำดับ {} ไม่ใช่ CreateTextNode: {:?}", 0, other),
+        }
+    }
 
-    //             table.next_page();
-    //             assert_eq!(
-    //                 table.get_page_state().current_page,
-    //                 2,
-    //                 "Current page should be 2 after next_page()."
-    //             );
-    //             assert_eq!(
-    //                 table.get_rows().len(),
-    //                 10,
-    //                 "Should show 10 items on page 2."
-    //             );
-    //             if !table.get_rows().is_empty() {
-    //                 assert_eq!(table.get_rows()[0].id, 10);
-    //             }
+    #[test]
+    fn test_table_pagination() {
+        let mut vdom = VirtualDom::new_with_props(
+            move || {
+                let cols = get_table_cols();
+                let table = use_table(get_test_data, cols.to_owned(), None);
+                // assert_eq!(table.get_page_state().items_per_page, 10);
 
-    //             table.next_page();
-    //             assert_eq!(
-    //                 table.get_page_state().current_page,
-    //                 3,
-    //                 "Current page should be 3 after next_page()."
-    //             );
-    //             assert_eq!(table.get_rows().len(), 5, "Should show 5 items on page 3.");
-    //             if !table.get_rows().is_empty() {
-    //                 assert_eq!(table.get_rows()[0].id, 20);
-    //             }
+                rsx! {"{table.get_page_state().total_items}"}
+            },
+            (),
+        );
 
-    //             table.next_page();
-    //             assert_eq!(
-    //                 table.get_page_state().current_page,
-    //                 3,
-    //                 "Current page should remain 3."
-    //             );
+        vdom.rebuild_to_vec();
+        let second = vdom.render_immediate_to_vec();
 
-    //             table.prev_page();
-    //             assert_eq!(
-    //                 table.get_page_state().current_page,
-    //                 2,
-    //                 "Current page should be 2 after prev_page()."
-    //             );
-    //             assert_eq!(table.get_rows().len(), 10);
-    //             if !table.get_rows().is_empty() {
-    //                 assert_eq!(table.get_rows()[0].id, 10);
-    //             }
+        match &second.edits[0] {
+            Mutation::SetText { value, id: _ } => {
+                assert_eq!(value.as_str(), "5",);
+            }
+            other => panic!("edit ลำดับ {} ไม่ใช่ SetText: {:?}", 0, other),
+        }
+    }
 
-    //             table.set_page(1);
-    //             assert_eq!(
-    //                 table.get_page_state().current_page,
-    //                 1,
-    //                 "Current page should be 1 after set_page(1)."
-    //             );
-    //             assert_eq!(table.get_rows().len(), 10);
-    //             if !table.get_rows().is_empty() {
-    //                 assert_eq!(table.get_rows()[0].id, 0);
-    //             }
+    #[test]
+    fn test_table_sorting() {
+        let mut vdom = VirtualDom::new_with_props(
+            move || {
+                let cols = get_table_cols();
+                let mut table = use_table(get_test_data, cols.to_owned(), None);
+                rsx! {{table.sort_by_field("name");}, "{table.get_sort_state()}"}
+            },
+            (),
+        );
 
-    //             table.set_items_per_page(5);
-    //             assert_eq!(table.get_page_state().items_per_page, 5);
-    //             assert_eq!(
-    //                 table.get_page_state().total_pages,
-    //                 5,
-    //                 "Should be 5 pages for 25 items, 5 per page."
-    //             );
-    //             assert_eq!(
-    //                 table.get_page_state().current_page,
-    //                 1,
-    //                 "Current page should reset to 1 after changing items_per_page."
-    //             );
-    //             assert_eq!(table.get_rows().len(), 5);
-    //             if !table.get_rows().is_empty() {
-    //                 assert_eq!(table.get_rows()[0].id, 0);
-    //             }
-    //         });
-    //     }
-
-    //     #[test]
-    //     fn test_table_sorting() {
-    //         run_table_test(|| {
-    //             let mut table = use_table::<TestItem>(, || get_table_cols(), || get_test_data());
-
-    //             table.sort_by("name", false);
-    //             let sorted_by_name_asc = table.get_rows_all_without_pag();
-    //             assert_eq!(sorted_by_name_asc[0].name, "Alice");
-    //             assert_eq!(sorted_by_name_asc[1].name, "Bob");
-    //             assert_eq!(sorted_by_name_asc[2].name, "Charlie");
-
-    //             table.sort_by("name", true);
-    //             let sorted_by_name_desc = table.get_rows_all_without_pag();
-    //             assert_eq!(sorted_by_name_desc[0].name, "Edward");
-    //             assert_eq!(sorted_by_name_desc[1].name, "Diana");
-    //             assert_eq!(sorted_by_name_desc[2].name, "Charlie");
-
-    //             table.sort_by("age", false);
-    //             let sorted_by_age_asc = table.get_rows_all_without_pag();
-    //             assert_eq!(sorted_by_age_asc[0].age, 24);
-    //             assert_eq!(sorted_by_age_asc[1].age, 28);
-    //             assert_eq!(sorted_by_age_asc[2].age, 30);
-
-    //             table.sort_by("age", true);
-    //             let sorted_by_age_desc = table.get_rows_all_without_pag();
-    //             assert_eq!(sorted_by_age_desc[0].age, 40);
-    //             assert_eq!(sorted_by_age_desc[1].age, 35);
-    //             assert_eq!(sorted_by_age_desc[2].age, 30);
-
-    //             table.sort_by("age", false);
-    //             let sorted_by_age_asc_again = table.get_rows_all_without_pag();
-    //             assert_eq!(sorted_by_age_asc_again[0].age, 24);
-    //             assert_eq!(table.get_sort_state().0, "age");
-    //             assert_eq!(table.get_sort_state().1, false);
-    //         });
-    //     }
-    //     #[test]
-    //     fn test_table_column_manipulation() {
-    //         // Renamed from test_table_column_selection
-    //         run_table_test(|| {
-    //             let initial_cols = vec![TableCol::new("id"), TableCol::new("name")];
-    //             let mut table = use_table::<TestItem>(, || initial_cols.clone(), || vec![]);
-
-    //             assert_eq!(table.get_cols().len(), 2);
-    //             assert_eq!(table.get_cols()[0].name, "id");
-
-    //             let new_cols = vec![TableCol::new("age")];
-    //             table.set_cols(new_cols.clone()); // Assuming UseTable has a set_cols method
-    //             assert_eq!(table.get_cols().len(), 1);
-    //             assert_eq!(table.get_cols()[0].name, "age");
-    //         });
-    //     }
+        vdom.rebuild_to_vec();
+        let second = vdom.render_immediate_to_vec();
+        println!("start: {:?}", second);
+        match &second.edits[0] {
+            Mutation::SetText { value, id: _ } => {
+                assert_eq!(value.as_str(), "true",);
+            }
+            other => panic!("edit ลำ {} ไม่ใช่ SetText: {:?}", 0, other),
+        }
+    }
 }
