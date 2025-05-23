@@ -12,17 +12,27 @@ pub struct PageState {
     pub total_items: usize,
 }
 
-#[derive(Default, Clone, PartialEq, Eq, Debug)]
+#[derive(Default, Clone, PartialEq, Eq, Debug , Props)]
 pub struct SortState {
+    #[props(default = None)]
     pub column: Option<String>,
+    #[props(default = true)]
     pub descending: bool,
 }
+
+// pub trait TableFetchFn<T>:
+//     Fn(usize, usize, (String, bool)) -> Pin<Box<dyn Future<Output = (PropData<T>, usize)>>> + 'static + Clone
+// where
+//     T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug,
+// {
+// }
 
 pub fn use_table<T>(
     fetch_fn: impl Fn(usize, usize, (String, bool)) -> Pin<Box<dyn Future<Output = (PropData<T>, usize)>>>
         + 'static
         + Clone,
     cols: PropCol<T>,
+    sort_state: Option<SortState>,
 ) -> UseTable<T>
 where
     T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug,
@@ -32,7 +42,7 @@ where
             data_vec: Vec::<T>::new(),
         }),
         prop_col: use_signal(|| cols.to_owned()),
-        sort_state: use_signal(|| SortState::default()),
+        sort_state: use_signal(|| sort_state.unwrap_or_default()),
         page_state: use_signal(|| PageState {
             current_page: 0,
             items_per_page: 10,
@@ -62,7 +72,10 @@ where
                 ),
             )
             .await
+
+            
         };
+
 
         resualt
     }));
@@ -77,7 +90,6 @@ where
                     state.page_state.write().current_page = total_pages.saturating_sub(1);
                 }
                 state.is_loading.set(false);
-
             }
             None => {
                 state.prop_data.set(PropData {
@@ -88,36 +100,8 @@ where
                 state.page_state.write().items_per_page = 10;
                 state.is_loading.set(true);
             }
-
-                // state.prop_data.set(res.0.to_owned());
-                // state.page_state.write().total_items = res.1;
-
         }
-        // if let Ok(ref_data) = data_resource.try_read() {
-        //     if let Some((prop_data, total_items)) = &*ref_data {
-        //         state.prop_data.set(prop_data.to_owned());
-        //         state.page_state.write().total_items = *total_items;
-        //         let total_pages = (total_items + items_per_page.saturating_sub(1)) / items_per_page;
-        //         if current_page >= total_pages {
-        //             state.page_state.write().current_page = total_pages.saturating_sub(1);
-        //         }
-        //     } else {
-        //         println!("No data available");
-        //         state.prop_data.set(PropData {
-        //             data_vec: Vec::<T>::new(),
-        //         });
-        //         state.page_state.write().total_items = 0;
-        //     }
-        // } else {
-        //     println!("Failed to read data resource");
-        //     state.prop_data.set(PropData {
-        //         data_vec: Vec::<T>::new(),
-        //     });
-        //     state.page_state.write().total_items = 0;
-        //     // Keep loading state true if we failed to read
-        // }
 
-        // state.is_loading.set(false);
     }));
 
     use_context_provider(|| data_resource);
@@ -193,4 +177,6 @@ where
     pub fn set_loading(&mut self, loading: bool) {
         self.is_loading.set(loading);
     }
+
+
 }

@@ -23,15 +23,22 @@ pub fn get_person_data(
                 // Perform sorting
                 let (key, ascending) = sort;
                 match key.as_str() {
+                    "id" => {
+                        if !ascending {
+                            sorted_data.sort_by(|a, b| a.id.cmp(&b.id));
+                        } else {
+                            sorted_data.sort_by(|a, b| b.id.cmp(&a.id));
+                        }
+                    }
                     "name" => {
-                        if ascending {
+                        if !ascending {
                             sorted_data.sort_by(|a, b| a.name.cmp(&b.name));
                         } else {
                             sorted_data.sort_by(|a, b| b.name.cmp(&a.name));
                         }
                     }
                     "age" => {
-                        if ascending {
+                        if !ascending {
                             sorted_data.sort_by(|a, b| a.age.cmp(&b.age));
                         } else {
                             sorted_data.sort_by(|a, b| b.age.cmp(&a.age));
@@ -119,8 +126,10 @@ pub async fn update_row(updated_row: Person) -> Result<(), String> {
     }
 }
 
-pub async fn add_row(add_row: Person) -> Result<()> {
+pub async fn add_row(mut add_row: Person) -> Result<()> {
     let mut array = PERSON_ARRAY.lock().unwrap();
+    let max_id = array.iter().map(|person| person.id).max().unwrap_or(0);
+    add_row.id = max_id + 1;
     array.push(add_row);
     Ok(())
 }
