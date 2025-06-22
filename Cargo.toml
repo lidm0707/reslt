@@ -19,3 +19,4 @@ futures = "0.3.28"
 [features]
 default = ["desktop"]
 desktop = ["dioxus/desktop"]
+web = ["dioxus/web"]
