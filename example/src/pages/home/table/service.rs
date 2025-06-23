@@ -1,3 +1,5 @@
+use async_std::task::sleep;
+use std::time::Duration;
 use std::{future::Future, pin::Pin};
 
 use anyhow::Result;
@@ -12,7 +14,7 @@ pub fn get_person_data(
 ) -> Pin<Box<dyn 'static + Future<Output = (PropData<Person>, usize)>>> {
     Box::pin(async move {
         println!("get_person_data");
-        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+        sleep(Duration::from_secs(1)).await;
         // Try to acquire the lock
         let lock_result = PERSON_ARRAY.lock();
         match lock_result {
@@ -83,7 +85,7 @@ pub fn get_person_data(
 }
 
 pub async fn delete_row(id: u32) {
-    tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+    sleep(Duration::from_secs(1)).await;
     let mut array = PERSON_ARRAY.lock().unwrap(); // เข้าถึง Mutex
     *array = array
         .clone()
@@ -99,7 +101,7 @@ pub async fn delete_row(id: u32) {
 }
 
 pub async fn delete_rows(vec_id: Vec<u32>) {
-    tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+    sleep(Duration::from_secs(1)).await;
     let mut array = PERSON_ARRAY.lock().unwrap(); // เข้าถึง Mutex
     *array = array
         .clone()

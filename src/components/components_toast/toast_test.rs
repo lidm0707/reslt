@@ -2,6 +2,7 @@ use crate::components::components_toast::toast::ToastContainer;
 use crate::components::components_toast::toast_signal::*;
 use dioxus::prelude::*;
 use dioxus_core::VirtualDom;
+
 #[test]
 fn test_toast_creation() {
     // Create a test component that uses the toast
@@ -54,7 +55,6 @@ fn test_toast_creation() {
     dom.rebuild(&mut dioxus_core::NoOpMutations);
 }
 
-#[tokio::test]
 async fn test_toast_container_rendering() {
     // Create a component that will use the toast container
     #[component]

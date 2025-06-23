@@ -1,3 +1,4 @@
+use async_std::task::sleep;
 use std::time::Duration;
 
 use crate::components::components_toast::toast_config::ToastConfig;
@@ -51,7 +52,7 @@ fn ToastItem(toast: Toast, config: ToastConfig, on_close: EventHandler<u32>) -> 
     };
 
     spawn(async move {
-        tokio::time::sleep(Duration::from_secs(2)).await;
+        sleep(Duration::from_secs(2)).await;
         use_context::<Signal<UseToast>>()()
             .to_owned()
             .remove(toast.id);

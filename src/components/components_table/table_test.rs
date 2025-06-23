@@ -1,5 +1,6 @@
 #![allow(non_snake_case)]
 use crate::prelude::FieldAccessible;
+use async_std::task::sleep;
 use dioxus::prelude::*;
 use futures::lock::Mutex;
 use serde::{Deserialize, Serialize};
@@ -35,7 +36,7 @@ static TEST_ARRAY: LazyLock<Mutex<Vec<TestItem>>> = LazyLock::new(|| {
 
 #[cfg(test)]
 mod tests {
-    use std::{future::Future, pin::Pin};
+    use std::{future::Future, pin::Pin, time::Duration};
 
     use dioxus::dioxus_core::Mutation;
 
@@ -82,7 +83,6 @@ mod tests {
         }
     }
 
-    #[tokio::test]
     async fn test_table_initialization() {
         let mut vdom = VirtualDom::new_with_props(
             move || {
@@ -101,7 +101,6 @@ mod tests {
         vdom.rebuild_in_place();
     }
 
-    #[tokio::test]
     async fn test_table_set_data() {
         let mut vdom = VirtualDom::new_with_props(
             move || {
@@ -118,7 +117,7 @@ mod tests {
         );
 
         vdom.rebuild_in_place();
-        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+        sleep(Duration::from_secs(1)).await;
         let mutations = vdom.render_immediate_to_vec();
         assert_eq!(
             mutations.edits.len(),
@@ -169,7 +168,6 @@ mod tests {
         );
     }
 
-    #[tokio::test]
     async fn test_table_loading_state() {
         let mut vdom = VirtualDom::new_with_props(
             move || {
@@ -188,7 +186,7 @@ mod tests {
             }
             other => println!("edit ลำดับ {} ไม่ใช่ CreateTextNode: {:?}", 0, other),
         }
-        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+        sleep(Duration::from_secs(1)).await;
 
         let mutations = vdom.render_immediate_to_vec();
         println!("Second: {:?}", mutations.edits);
