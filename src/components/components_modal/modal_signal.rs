@@ -1,29 +1,4 @@
-use core::fmt;
-
 use dioxus::prelude::*;
-
-#[derive(Clone)]
-pub struct ModalState {
-    pub status: bool,
-    pub title: String,
-    pub content: Element,
-}
-
-impl Eq for ModalState {}
-impl PartialEq for ModalState {
-    fn eq(&self, other: &Self) -> bool {
-        self.status == other.status && self.title == other.title
-    }
-}
-
-impl fmt::Debug for ModalState {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple("")
-            .field(&self.status)
-            .field(&self.title)
-            .finish()
-    }
-}
 
 pub fn use_modal() -> UseModal {
     UseModal {
