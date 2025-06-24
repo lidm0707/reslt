@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 
 #[derive(Clone)]
 pub struct ModalState {
-    pub is_open: bool,
+    pub status: bool,
     pub title: String,
     pub content: Element,
 }
@@ -12,14 +12,14 @@ pub struct ModalState {
 impl Eq for ModalState {}
 impl PartialEq for ModalState {
     fn eq(&self, other: &Self) -> bool {
-        self.is_open == other.is_open && self.title == other.title
+        self.status == other.status && self.title == other.title
     }
 }
 
 impl fmt::Debug for ModalState {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_tuple("")
-            .field(&self.is_open)
+            .field(&self.status)
             .field(&self.title)
             .finish()
     }
@@ -27,7 +27,7 @@ impl fmt::Debug for ModalState {
 
 pub fn use_modal() -> UseModal {
     UseModal {
-        is_open: use_signal(|| false),
+        status: use_signal(|| false),
         title: use_signal(|| String::new()),
         content: use_signal(|| rsx! {}),
     }
@@ -35,14 +35,14 @@ pub fn use_modal() -> UseModal {
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct UseModal {
-    pub is_open: Signal<bool>,
+    pub status: Signal<bool>,
     pub title: Signal<String>,
     pub content: Signal<Element>,
 }
 
 impl UseModal {
     pub fn open(&mut self) {
-        self.is_open.set(true);
+        self.status.set(true);
     }
 
     pub fn set_content(&mut self, content: Element) {
@@ -54,11 +54,15 @@ impl UseModal {
     }
 
     pub fn close(&mut self) {
-        self.is_open.set(false);
+        self.status.set(false);
     }
 
     pub fn is_open(&self) -> bool {
-        *self.is_open.read()
+        if *self.status.read() == true {
+            true
+        } else {
+            false
+        }
     }
 
     pub fn get_title(&self) -> String {
