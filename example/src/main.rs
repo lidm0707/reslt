@@ -72,6 +72,7 @@ fn App() -> Element {
 
         ToastContainer {
             Modal {
+
                 div {
                 FancyButton{}
 

@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 #[component]
 pub fn Modal(
     #[props(default = ModalConfig::default())] config: ModalConfig,
-    children: Element
+    children: Element,
 ) -> Element {
     let use_modal = use_modal();
     use_context_provider(|| use_modal);
@@ -16,25 +16,26 @@ pub fn Modal(
     };
 
     rsx! {
+        document::Stylesheet { href: asset!("/assets/output.css") }
         div {
             class: format!(
                 "{} {}",
                 config.modal_base,
                 is_visible,
             ),
-            div { 
+            div {
                 class: config.modal_backdrop,
-                div { 
+                div {
                     class: config.modal_container,
-                    div { 
+                    div {
                         class: "mt-3 text-center",
-                        h3 { 
+                        h3 {
                             class: config.modal_title,
                             "{use_cx_modal.get_title()}"
                         }
-                        div { 
-                            class: config.modal_content, 
-                            {use_cx_modal.get_content()} 
+                        div {
+                            class: config.modal_content,
+                            {use_cx_modal.get_content()}
                         }
                     }
                 }
