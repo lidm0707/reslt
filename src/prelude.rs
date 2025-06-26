@@ -19,7 +19,6 @@ pub use crate::components::components_table::table_trait::*;
 pub use crate::components::components_toast::toast::*;
 pub use crate::components::components_toast::toast_config::*;
 pub use crate::components::components_toast::toast_signal::*;
-pub use crate::helper::css::*;
 pub use crate::helper::tailwind::*;
 
 pub use table_derive::FieldAccessible;
