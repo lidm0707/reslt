@@ -33,11 +33,7 @@ impl UseModal {
     }
 
     pub fn is_open(&self) -> bool {
-        if *self.status.read() == true {
-            true
-        } else {
-            false
-        }
+        *self.status.read()
     }
 
     pub fn get_title(&self) -> String {

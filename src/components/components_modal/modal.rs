@@ -16,7 +16,7 @@ pub fn Modal(
     };
 
     rsx! {
-        document::Stylesheet { href: asset!("/assets/output.css") }
+
         div {
             class: format!(
                 "{} {}",

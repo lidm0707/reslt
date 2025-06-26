@@ -68,7 +68,9 @@ fn App() -> Element {
     // let checkbox = use_checkbox::<Person>();
     // println!("{:?}", checkbox);
     rsx! {
-
+        document::Stylesheet {
+            href: asset!("/assets/output.css"),
+        }
 
         ToastContainer {
             Modal {
