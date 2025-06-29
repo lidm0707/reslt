@@ -22,10 +22,8 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
         false
     };
     rsx! {
-        document::Stylesheet {
-            href: asset!("/assets/output.css"),
-        }
-        ContainerTable {
+
+        ContainerTable { class: class.table_container,
             CheckBox {
                 visible,
                 method: rsx! {

@@ -1,8 +1,8 @@
 use std::fmt::Debug;
 
+use crate::prelude::*;
 use dioxus::prelude::*;
 use serde::Serialize;
-use crate::prelude::*;
 
 #[component]
 pub fn TableHeader(class: Option<String>, children: Element) -> Element {
@@ -49,8 +49,6 @@ pub fn TableMain(class: Option<String>, children: Element) -> Element {
     }
 }
 
-
-
 #[component]
 pub fn DefaultChildren<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>(
     row: T,
@@ -70,17 +68,8 @@ pub fn DefaultChildren<T: 'static + Serialize + Eq + Clone + FieldAccessible + D
 }
 
 #[component]
-pub fn ContainerTable(
-    class: Option<String>, children: Element
-) -> Element {
+pub fn ContainerTable(class: Option<String>, children: Element) -> Element {
     rsx! {
-        div { class: "absolute overflow-y-scroll h-100 w-screen ", {children} }
+        div { class: class.unwrap_or_default(), {children} }
     }
 }
-
-
-
-
-
-
-
