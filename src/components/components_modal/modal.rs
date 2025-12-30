@@ -10,31 +10,31 @@ pub fn Modal(
     use_context_provider(|| use_modal);
     let use_cx_modal = use_context::<UseModal>();
     let is_visible = if use_cx_modal.is_open() {
-        "visible"
+        r#"visibility: visible;"#
     } else {
-        "invisible"
+        r#"visibility: hidden;"#
     };
 
     rsx! {
 
         div {
-            class: format!(
+            style: format!(
                 "{} {}",
                 config.modal_base,
                 is_visible,
             ),
             div {
-                class: config.modal_backdrop,
+                style: config.modal_backdrop,
                 div {
-                    class: config.modal_container,
+                    style: config.modal_container,
                     div {
-                        class: "mt-3 text-center",
+                        style: r#"margin-top: 0.75rem; text-align: center;"#,
                         h3 {
-                            class: config.modal_title,
+                            style: config.modal_title,
                             "{use_cx_modal.get_title()}"
                         }
                         div {
-                            class: config.modal_content,
+                            style: config.modal_content,
                             {use_cx_modal.get_content()}
                         }
                     }

@@ -13,12 +13,12 @@ pub struct SkeletonConfig {
 impl SkeletonConfig {
     pub fn default() -> Self {
         let config = Self {
-            skeleton_base: "skeleton bg-gray-300 dark:bg-gray-700 rounded".to_string(),
-            skeleton_text: "skeleton-text h-4 w-full rounded".to_string(),
-            skeleton_rectangular: "skeleton-rectangular".to_string(),
-            skeleton_rounded: "skeleton-rounded rounded-md".to_string(),
-            skeleton_circular: "skeleton-circular rounded-full".to_string(),
-            skeleton_animate: "skeleton-wave animate-pulse".to_string(),
+            skeleton_base: r#"background-color: #d1d5db; border-radius: 0.25rem;"#.to_string(),
+            skeleton_text: r#"background-color: #d1d5db; height: 1rem; width: 100%; border-radius: 0.25rem;"#.to_string(),
+            skeleton_rectangular: r#"background-color: #d1d5db;"#.to_string(),
+            skeleton_rounded: r#"background-color: #d1d5db; border-radius: 0.375rem;"#.to_string(),
+            skeleton_circular: r#"background-color: #d1d5db; border-radius: 9999px;"#.to_string(),
+            skeleton_animate: r#"background-color: #d1d5db; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"#.to_string(),
         };
         config.to_owned()
     }
@@ -52,5 +52,4 @@ impl SkeletonConfig {
         self.skeleton_animate = value;
         self
     }
-
 }

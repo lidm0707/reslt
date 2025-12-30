@@ -3,7 +3,7 @@ use dioxus::prelude::*;
 
 #[component]
 pub fn Skeleton(#[props(default = SkeletonConfig::default())] config: SkeletonConfig) -> Element {
-    let class_string = [
+    let style_string = [
         config.skeleton_base,
         config.skeleton_text,
         config.skeleton_rectangular,
@@ -15,7 +15,7 @@ pub fn Skeleton(#[props(default = SkeletonConfig::default())] config: SkeletonCo
 
     rsx! {
         div {
-            class: format!("{}", class_string),
+            style: format!("{}", style_string),
         }
     }
 }

@@ -1,6 +1,7 @@
 # Rust specific files
 */target
-/target
+
+target/
 **/*.rs.bk
 
 # Node.js dependencies

@@ -5,46 +5,45 @@ use dioxus::prelude::*;
 use serde::Serialize;
 
 #[component]
-pub fn TableHeader(class: Option<String>, children: Element) -> Element {
+pub fn TableHeader(style: String, children: Element) -> Element {
     rsx! {
-        thead { class: class.unwrap_or_default(), {children} }
+        thead { style, {children} }
     }
 }
 
 #[component]
-pub fn TableHead(class: Option<String>, children: Element) -> Element {
+pub fn TableHead(style: String, children: Element) -> Element {
     rsx! {
-        th { class: class.unwrap_or_default(), scope: "col", {children} }
+        th { style, scope: "col", {children} }
     }
 }
 
 #[component]
-pub fn TableBody(class: Option<String>, children: Element) -> Element {
+pub fn TableBody(style: String, children: Element) -> Element {
     rsx! {
-        tbody { class: class.unwrap_or_default(), {children} }
+        tbody { style, {children} }
     }
 }
 
 #[component]
-pub fn TableRow(class: Option<String>, children: Element) -> Element {
+pub fn TableRow(style: String, children: Element) -> Element {
     rsx! {
-        tr { class: class.unwrap_or_default(), {children} }
+        tr { style, {children} }
     }
 }
 
 #[component]
-pub fn TableCell(class: Option<String>, children: Element) -> Element {
+pub fn TableCell(style: String, children: Element) -> Element {
     rsx! {
-        td { class: class.unwrap_or_default(), {children} }
+        td { style, {children} }
     }
 }
 
 #[component]
-pub fn TableMain(class: Option<String>, children: Element) -> Element {
+pub fn TableMain(style: String, children: Element) -> Element {
     rsx! {
-
         div {
-            table { class: class.unwrap_or_default(), {children} }
+            table { style, {children} }
         }
     }
 }
@@ -68,8 +67,8 @@ pub fn DefaultChildren<T: 'static + Serialize + Eq + Clone + FieldAccessible + D
 }
 
 #[component]
-pub fn ContainerTable(class: Option<String>, children: Element) -> Element {
+pub fn ContainerTable(style: String, children: Element) -> Element {
     rsx! {
-        div { class: class.unwrap_or_default(), {children} }
+        div { style, {children} }
     }
 }

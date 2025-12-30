@@ -23,24 +23,24 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
     };
     rsx! {
 
-        ContainerTable { class: class.table_container,
+        ContainerTable { style: class.table_container,
             CheckBox {
                 visible,
                 method: rsx! {
                     {checkbox_method}
                 },
             }
-            TableMain { class: class.table_main,
-                TableHeader { class: class.table_header,
-                    TableRow {
+            TableMain { style: class.table_main,
+                TableHeader { style: class.table_header,
+                    TableRow { style: class.table_row,
                         {
                             let class = class_head.to_owned();
                             rsx! {
                                 if column_check {
-                                    HeadCellCheckBox { class: class.to_owned(), table: table.to_owned() }
+                                    HeadCellCheckBox { style: class.to_owned(), table: table.to_owned() }
                                 }
                                 for col in table.get_cols().into_iter() {
-                                    TableHead { class: class.to_owned().table_head,
+                                    TableHead { style: class.to_owned().table_head,
                                         {
                                             let value = table.to_owned();
                                             rsx! {
@@ -53,7 +53,7 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                         }
                     }
                 }
-                TableBody {
+                TableBody { style: class.table_body,
                     {
                         let class = class_main.to_owned();
                         let load = table.is_loading();
@@ -61,13 +61,13 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                             if load {
                                 rsx! {
                                     for _ in 0..table.get_page_state().items_per_page.max(10) {
-                                        TableRow { class: class.to_owned().table_row,
+                                        TableRow { style: class.to_owned().table_row,
                                             if column_check {
-                                                TableCell { class: class.to_owned().table_head, Skeleton {
+                                                TableCell { style: class.to_owned().table_head, Skeleton {
                                                 } }
                                             }
                                             for _ in table.get_cols().into_iter() {
-                                                TableCell { class: class.to_owned().table_cell, Skeleton {
+                                                TableCell { style: class.to_owned().table_cell, Skeleton {
                                                 } }
                                             }
                                         }
@@ -76,16 +76,16 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                             } else {
                                 rsx! {
                                     for row in table.get_rows().into_iter() {
-                                        TableRow { class: class.to_owned().table_row,
+                                        TableRow { style: class.to_owned().table_row,
                                             {
                                                 rsx! {
                                                     if column_check {
-                                                        CellCheckBox { class: class.to_owned(), row: row.to_owned() }
+                                                        CellCheckBox { style: class.to_owned(), row: row.to_owned() }
                                                     }
                                                 }
                                             }
                                             for col in table.get_cols().into_iter() {
-                                                TableCell { class: class.to_owned().table_cell,
+                                                TableCell { style: class.to_owned().table_cell,
                                                     {
                                                         let row_copy = row.to_owned();
                                                         let col_copy = col.to_owned();

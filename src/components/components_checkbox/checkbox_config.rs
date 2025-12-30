@@ -14,13 +14,18 @@ pub struct CheckboxConfig {
 impl CheckboxConfig {
     pub fn default() -> Self {
         let config = Self {
-            checkbox_base: "flex items-center".to_string(),
-            checkbox_container: "absolute  flex items-center".to_string(),
-            checkbox_input: "h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500".to_string(),
-            checkbox_label: "ml-2 text-sm text-gray-700".to_string(),
-            checkbox_checked: "bg-primary-600 border-transparent".to_string(),
-            checkbox_unchecked: "bg-white border-gray-300".to_string(),
-            checkbox_disabled: "opacity-50 cursor-not-allowed".to_string(),
+            checkbox_base: r#"display: flex; align-items: center;"#.to_string(),
+            checkbox_container: r#"position: absolute; display: flex; align-items: center;"#
+                .to_string(),
+            checkbox_input:
+                r#"height: 1rem; width: 1rem; border-radius: 0.25rem; border: 1px solid #d1d5db;"#
+                    .to_string(),
+            checkbox_label: r#"margin-left: 0.5rem; font-size: 0.875rem; color: #374151;"#
+                .to_string(),
+            checkbox_checked: r#"background-color: #2563eb; border-color: transparent;"#
+                .to_string(),
+            checkbox_unchecked: r#"background-color: white; border-color: #d1d5db;"#.to_string(),
+            checkbox_disabled: r#"opacity: 0.5; cursor: not-allowed;"#.to_string(),
         };
         config.to_owned()
     }

@@ -64,18 +64,21 @@ mod tests {
                 Col {
                     head: "ID".to_owned(),
                     index: "id".to_owned(),
+                    style: None,
                     class: Some("text-right".to_owned()),
                     action: None,
                 },
                 Col {
                     head: "Name".to_owned(),
                     index: "name".to_owned(),
+                    style: None,
                     class: None,
                     action: None,
                 },
                 Col {
                     head: "AGE".to_owned(),
                     index: "age".to_owned(),
+                    style: None,
                     class: None,
                     action: None,
                 },

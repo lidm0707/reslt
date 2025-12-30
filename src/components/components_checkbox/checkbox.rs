@@ -13,12 +13,16 @@ pub fn CheckBox(
     visible: bool,
     method: Element,
 ) -> Element {
-    let is_visible = if visible { "visible" } else { "invisible" };
+    let is_visible = if visible {
+        r#"visibility: visible;"#
+    } else {
+        r#"visibility: hidden;"#
+    };
     println!("is visible {}", visible);
 
     rsx! {
-        div { class: format!("absolute  bottom-35  {}", is_visible),
-            div { class: "fixed z-40 left-[calc(50%-10rem)] w-xs flex flex-col justify-center items-center bg-white p-4 gap-4 border border-gray-200 shadow-lg rounded-lg ",
+        div { style: format!(r#"position: absolute; bottom: 8.75rem; {}"#, is_visible),
+            div { style: r#"position: fixed; z-index: 40; left: calc(50% - 10rem); width: 20rem; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: white; padding: 1rem; gap: 1rem; border: 1px solid #e5e7eb; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); border-radius: 0.5rem;"#,
                 {method}
             }
         }
@@ -28,7 +32,7 @@ pub fn CheckBox(
 // 2 component in 1 fn is not good !
 #[component]
 pub fn CellCheckBox<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>(
-    class: TableConfig,
+    style: TableConfig,
     row: T,
 ) -> Element {
     {
@@ -39,7 +43,7 @@ pub fn CellCheckBox<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
             checked.set(update_check_all);
         }));
         rsx! {
-            TableCell { class: class.to_owned().table_cell,
+            TableCell { style: style.to_owned().table_cell,
                 input {
                     r#type: "checkbox",
                     checked: checked(),
@@ -61,11 +65,11 @@ pub fn CellCheckBox<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
 // 2 component in 1 fn is not good !
 #[component]
 pub fn HeadCellCheckBox<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>(
-    class: TableConfig,
+    style: TableConfig,
     table: UseTable<T>,
 ) -> Element {
     rsx! {
-        TableHead { class: class.to_owned().table_head,
+        TableHead { style: style.to_owned().table_head,
             {
                 let data = table.to_owned().get_rows();
                 rsx! {
@@ -90,23 +94,23 @@ pub fn SingleCheckbox(
     #[props(default = CheckboxConfig::default())] config: CheckboxConfig,
     onchange: EventHandler<bool>,
 ) -> Element {
-    let input_class = if disabled {
+    let input_style = if disabled {
         format!("{} {}", config.checkbox_input, config.checkbox_disabled)
     } else {
         config.checkbox_input.clone()
     };
 
     rsx! {
-        div { class: config.checkbox_base,
-            div { class: config.checkbox_container,
+        div { style: config.checkbox_base,
+            div { style: config.checkbox_container,
                 input {
                     r#type: "checkbox",
-                    class: input_class,
+                    style: input_style,
                     checked,
                     disabled,
                     onchange: move |evt| { onchange.call(evt.value().parse().unwrap_or(false)) },
                 }
-                label { class: config.checkbox_label, "{label}" }
+                label { style: config.checkbox_label, "{label}" }
             }
         }
     }

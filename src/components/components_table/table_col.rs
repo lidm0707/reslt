@@ -13,6 +13,7 @@ where
     pub head: String,
     pub index: String,
     pub class: Option<String>,
+    pub style: Option<String>,
     pub action: Option<Rc<dyn Fn(T) -> Element>>,
 }
 impl<T> Eq for Col<T> where T: 'static + Serialize + Eq + Clone + FieldAccessible {}

@@ -13,14 +13,14 @@ pub struct TableConfig {
 
 impl TableConfig {
     pub fn default() -> Self {
-        let config =  Self {
-            table_container: "absolute overflow-y-scroll h-100 w-screen".to_string(),
-            table_main: "w-full h-100 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400".to_string(),
-            table_header: "sticky z-3 top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ".to_string(),
-            table_head: "px-6 py-3".to_string(),
+        let config = Self {
+            table_container: r#"position: absolute; overflow-y: scroll; height: 100%; width: 100vw;"#.to_string(),
+            table_main: r#"width: 100%; height: 100%; font-size: 0.875rem; text-align: left; color: #6b7280;"#.to_string(),
+            table_header: r#"position: sticky; z-index: 10; top: 0; font-size: 0.75rem; text-transform: uppercase; color: #374151; background-color: #f9fafb;"#.to_string(),
+            table_head: r#"padding: 1rem 1.5rem;"#.to_string(),
             table_body: "".to_string(),
-            table_row: "bg-white border-b border-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600".to_string(),
-            table_cell: "px-6 py-3".to_string(),
+            table_row: r#"background-color: white; border-bottom: 1px solid #e5e7eb;"#.to_string(),
+            table_cell: r#"padding: 1rem 1.5rem;"#.to_string(),
         };
         config.to_owned()
     }
