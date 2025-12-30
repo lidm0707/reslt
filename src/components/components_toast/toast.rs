@@ -19,8 +19,7 @@ pub fn ToastContainer(
 
     rsx! {
         div {
-            class: config.toast_container,
-            style: "max-height: 100vh; overflow-y: auto;",
+            style: format!("{} max-height: 100vh; overflow-y: auto;", config.toast_container),
             {
                 use_context::<Signal<UseToast>>()()
                     .get_toasts()
@@ -60,18 +59,18 @@ fn ToastItem(toast: Toast, config: ToastConfig, on_close: EventHandler<u32>) -> 
 
     rsx! {
         div {
-            class: format!("{} {}", config.toast_item, toast_class),
+            style: format!("{} {}", config.toast_item, toast_class),
             div {
-                class: config.toast_icon,
+                style: config.toast_icon,
                 "{icon}"
             }
             div {
-                class: config.toast_message,
+                style: config.toast_message,
                 "{toast.message}"
             }
             button {
                 r#type: "button",
-                class: config.toast_close_button,
+                style: config.toast_close_button,
                 "aria-label": "Close",
                 onclick: move |_| on_close.call(toast.id),
                 "×"

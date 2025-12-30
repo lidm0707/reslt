@@ -16,15 +16,15 @@ pub struct ToastConfig {
 impl ToastConfig {
     pub fn default() -> Self {
         let config = Self {
-            toast_container: "fixed top-0 right-0 p-4 z-50 space-y-4 w-80".to_string(),
-            toast_item: "flex items-center p-4 mb-4 rounded-lg shadow-md".to_string(),
-            toast_success: "text-green-800 bg-green-100".to_string(),
-            toast_error: "text-red-800 bg-red-100".to_string(),
-            toast_warning: "text-yellow-800 bg-yellow-100".to_string(),
-            toast_info: "text-blue-800 bg-blue-100".to_string(),
-            toast_icon: "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 mr-3 rounded-lg".to_string(),
-            toast_message: "text-sm font-normal".to_string(),
-            toast_close_button: "ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 p-1.5 inline-flex h-8 w-8 hover:bg-gray-200".to_string(),
+            toast_container: r#"position: fixed; top: 0; right: 0; padding: 1rem; z-index: 50; width: 20rem;"#.to_string(),
+            toast_item: r#"display: flex; align-items: center; padding: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);"#.to_string(),
+            toast_success: r#"color: #166534; background-color: #dcfce7;"#.to_string(),
+            toast_error: r#"color: #991b1b; background-color: #fee2e2;"#.to_string(),
+            toast_warning: r#"color: #92400e; background-color: #fef3c7;"#.to_string(),
+            toast_info: r#"color: #1e40af; background-color: #dbeafe;"#.to_string(),
+            toast_icon: r#"display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 2rem; height: 2rem; margin-right: 0.75rem; border-radius: 0.5rem;"#.to_string(),
+            toast_message: r#"font-size: 0.875rem; font-weight: normal;"#.to_string(),
+            toast_close_button: r#"margin-left: auto; margin-left: -0.375rem; margin-top: -0.375rem; border-radius: 0.5rem; padding: 0.375rem; display: inline-flex; height: 2rem; width: 2rem;"#.to_string(),
         };
         config.to_owned()
     }
