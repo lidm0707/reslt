@@ -7,35 +7,35 @@ use serde::Serialize;
 #[component]
 pub fn TableHeader(style: String, children: Element) -> Element {
     rsx! {
-        thead { style, {children} }
+        thead { style:style, {children} }
     }
 }
 
 #[component]
 pub fn TableHead(style: String, children: Element) -> Element {
     rsx! {
-        th { style, scope: "col", {children} }
+        th { style:style, scope: "col", {children} }
     }
 }
 
 #[component]
 pub fn TableBody(style: String, children: Element) -> Element {
     rsx! {
-        tbody { style, {children} }
+        tbody { style:style, {children} }
     }
 }
 
 #[component]
 pub fn TableRow(style: String, children: Element) -> Element {
     rsx! {
-        tr { style, {children} }
+        tr { style:style, {children} }
     }
 }
 
 #[component]
 pub fn TableCell(style: String, children: Element) -> Element {
     rsx! {
-        td { style, {children} }
+        td { style:style, {children} }
     }
 }
 
@@ -43,7 +43,7 @@ pub fn TableCell(style: String, children: Element) -> Element {
 pub fn TableMain(style: String, children: Element) -> Element {
     rsx! {
         div {
-            table { style, {children} }
+            table { style:style, {children} }
         }
     }
 }
@@ -69,6 +69,6 @@ pub fn DefaultChildren<T: 'static + Serialize + Eq + Clone + FieldAccessible + D
 #[component]
 pub fn ContainerTable(style: String, children: Element) -> Element {
     rsx! {
-        div { style, {children} }
+        div { style:style, {children} }
     }
 }

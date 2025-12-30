@@ -15,12 +15,12 @@ impl TableConfig {
     pub fn default() -> Self {
         let config = Self {
             table_container: r#"position: absolute; overflow-y: scroll; height: 100%; width: 100vw;"#.to_string(),
-            table_main: r#"width: 100%; height: 100%; font-size: 0.875rem; text-align: left; color: #6b7280;"#.to_string(),
-            table_header: r#"position: sticky; z-index: 10; top: 0; font-size: 0.75rem; text-transform: uppercase; color: #374151; background-color: #f9fafb;"#.to_string(),
-            table_head: r#"padding: 1rem 1.5rem;"#.to_string(),
+            table_main: r#"width: 100%; height: 100%; font-size: 0.875rem; text-align: left; color: white;"#.to_string(),
+            table_header: r#"position: sticky; z-index: 10; top: 0; font-size: 0.75rem; text-transform: uppercase; color: white; background-color: #f9fafb;"#.to_string(),
+            table_head: r#"padding: 0.75rem 1.5rem 0.75rem 1.5rem;"#.to_string(),
             table_body: "".to_string(),
-            table_row: r#"background-color: white; border-bottom: 1px solid #e5e7eb;"#.to_string(),
-            table_cell: r#"padding: 1rem 1.5rem;"#.to_string(),
+            table_row: r#"background-color: #202838; border-bottom: 1px solid #e5e7eb;"#.to_string(),
+            table_cell: r#"padding: 0.75rem 1.5rem 0.75rem 1.5rem;"#.to_string(),
         };
         config.to_owned()
     }

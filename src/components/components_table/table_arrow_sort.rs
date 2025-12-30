@@ -23,12 +23,12 @@ pub fn ArrowSort<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>(
                     match (value.get_sort_col(), value.get_sort_state()) {
                         (col_index, true) if col_index == col.index => {
                             rsx! {
-                                span { class: "ml-1", "▲" }
+                                span { style: "margin-left: 0.25rem ", "▲" }
                             }
                         }
                         (col_index, false) if col_index == col.index => {
                             rsx! {
-                                span { class: "ml-1", "▼" }
+                                span { style: "margin-left: 0.25rem ", "▼" }
                             }
                         }
                         _ => rsx! {

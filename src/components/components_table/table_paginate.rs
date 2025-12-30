@@ -35,13 +35,13 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
     page_numbers.dedup();
 
     rsx! {
-        div { class: "sticky bottom-0  w-full border-t border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700",
-            nav { class: format!("relative px-4 py-3 sm:px-6 {}", class.unwrap_or_default()),
-                div { class: "flex items-center justify-between space-x-4",
+        div { style: r#"position: sticky; bottom: 0; width: 100%; border-top: 1px solid #e5e7eb; background-color: #202838;"#,
+            nav { style: format!(r#"position: relative; padding-left: 1rem; padding-right: 1rem; padding-top: 0.75rem; padding-bottom: 0.75rem; {}"#, class.unwrap_or_default()),
+                div { style: r#"display: flex; align-items: center; justify-content: space-between; column-gap: 1rem;"#,
                     // Items per page dropdown
-                    div { class: "flex items-center space-x-2",
+                    div { style: r#"display: flex; align-items: center; column-gap: 0.5rem;"#,
                         select {
-                            class: "block w-20 rounded-md border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600",
+                            style: r#"display: block; width: 5rem; border-radius: 0.375rem; border: 1px solid #d1d5db; background-color: white; font-size: 0.875rem; font-weight: 500; color: #374151; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);"#,
                             disabled: table.is_loading(),
                             onchange: move |evt| {
                                 items_per_page.set_loading(true);
@@ -53,20 +53,20 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
                         }
                     }
                     // Pagination information
-                    div { class: "text-sm text-gray-500 dark:text-gray-400",
-                        span { class: "font-medium", "{current_page * page_state.items_per_page + 1}" }
+                    div { style: r#"font-size: 0.875rem; color: white;"#,
+                        span { style: r#"font-weight: 500;"#, "{current_page * page_state.items_per_page + 1}" }
                         span { " - " }
-                        span { class: "font-medium",
+                        span { style: r#"font-weight: 500;"#,
                             "{((current_page + 1) * page_state.items_per_page).min(page_state.total_items)}"
                         }
                         span { " of " }
-                        span { class: "font-medium", "{page_state.total_items}" }
+                        span { style: r#"font-weight: 500;"#, "{page_state.total_items}" }
                     }
                     // Pagination buttons
-                    div { class: "flex items-center space-x-2",
+                    div { style: r#"display: flex; align-items: center; column-gap: 0.5rem;"#,
                         // Previous button
                         button {
-                            class: "flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 dark:text-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed",
+                            style: r#"display: flex; align-items: center; justify-content: center; border-radius: 0.375rem; padding-left: 0.75rem; padding-right: 0.75rem; padding-top: 0.5rem; padding-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500; color: #6b7280; background-color: #f3f4f6;"#,
                             disabled: table.is_loading() || current_page == 0,
                             onclick: move |_| {
                                 table.set_page(current_page.saturating_sub(1));
@@ -85,12 +85,12 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
                                     rsx! {
                                         button {
                                             key: "{page}",
-                                            class: format!(
-                                                "flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium {}",
+                                            style: format!(
+                                                r#"display: flex; align-items: center; justify-content: center; border-radius: 0.375rem; padding-left: 0.75rem; padding-right: 0.75rem; padding-top: 0.5rem; padding-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500; {}"#,
                                                 if is_current {
-                                                    "bg-indigo-600 text-white focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                                                    r#"background-color: #4f46e5; color: white;"#
                                                 } else {
-                                                    "text-gray-500 bg-gray-100 hover:bg-gray-200 dark:text-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600"
+                                                    r#"color: #6b7280; background-color: #f3f4f6;"#
                                                 },
                                             ),
                                             disabled: table.is_loading() || is_current,
@@ -107,7 +107,7 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
                             let mut table = table.to_owned();
                             rsx! {
                                 button {
-                                    class: "flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 dark:text-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed",
+                                    style: r#"display: flex; align-items: center; justify-content: center; border-radius: 0.375rem; padding-left: 0.75rem; padding-right: 0.75rem; padding-top: 0.5rem; padding-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500; color: #6b7280; background-color: #f3f4f6;"#,
                                     disabled: table.is_loading() || current_page == total_pages.saturating_sub(1)
                                         || total_pages == 0,
                                     onclick: move |_| {
@@ -122,5 +122,4 @@ pub fn Pagination<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>
             }
         }
     }
-    
 }

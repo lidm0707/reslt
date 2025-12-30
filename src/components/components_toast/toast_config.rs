@@ -24,7 +24,21 @@ impl ToastConfig {
             toast_info: r#"color: #1e40af; background-color: #dbeafe;"#.to_string(),
             toast_icon: r#"display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 2rem; height: 2rem; margin-right: 0.75rem; border-radius: 0.5rem;"#.to_string(),
             toast_message: r#"font-size: 0.875rem; font-weight: normal;"#.to_string(),
-            toast_close_button: r#"margin-left: auto; margin-left: -0.375rem; margin-top: -0.375rem; border-radius: 0.5rem; padding: 0.375rem; display: inline-flex; height: 2rem; width: 2rem;"#.to_string(),
+            toast_close_button: r#"
+                margin-left: auto;
+                margin-right: -0.125rem;
+                margin-top: -0.125rem;
+                background-color: transparent;
+                border: none;
+                border-radius: 0.5rem;
+                padding: 0.375rem;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                height: 2rem;
+                width: 2rem;
+                cursor: pointer;
+            "#.to_string(),
         };
         config.to_owned()
     }

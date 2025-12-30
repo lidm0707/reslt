@@ -6,14 +6,14 @@ use serde::Serialize;
 
 #[component]
 pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug>(
-    #[props(default = TableConfig::default())] class: TableConfig,
+    #[props(default = TableConfig::default())] config: TableConfig,
     table: UseTable<T>,
     children: Element,
     #[props(default = rsx! {})] checkbox_method: Element,
     #[props(default = false)] column_check: bool,
 ) -> Element {
-    let class_head = class.to_owned();
-    let class_main = class.to_owned();
+    let style_head = config.to_owned();
+    let style_main = config.to_owned();
     let checkbox = use_checkbox::<T>();
     provide_context(checkbox.to_owned());
     let visible = if use_context::<UseCheckBox<T>>().get_checked_data().len() > 0 {
@@ -23,24 +23,24 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
     };
     rsx! {
 
-        ContainerTable { style: class.table_container,
+        ContainerTable { style: config.table_container,
             CheckBox {
                 visible,
                 method: rsx! {
                     {checkbox_method}
                 },
             }
-            TableMain { style: class.table_main,
-                TableHeader { style: class.table_header,
-                    TableRow { style: class.table_row,
+            TableMain { style: config.table_main,
+                TableHeader { style: config.table_header,
+                    TableRow { style: config.table_row,
                         {
-                            let class = class_head.to_owned();
+                            let config = style_head.to_owned();
                             rsx! {
                                 if column_check {
-                                    HeadCellCheckBox { style: class.to_owned(), table: table.to_owned() }
+                                    HeadCellCheckBox { style: config.to_owned(), table: table.to_owned() }
                                 }
                                 for col in table.get_cols().into_iter() {
-                                    TableHead { style: class.to_owned().table_head,
+                                    TableHead { style: config.to_owned().table_head,
                                         {
                                             let value = table.to_owned();
                                             rsx! {
@@ -53,21 +53,21 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                         }
                     }
                 }
-                TableBody { style: class.table_body,
+                TableBody { style: config.table_body,
                     {
-                        let class = class_main.to_owned();
+                        let config = style_main.to_owned();
                         let load = table.is_loading();
                         {
                             if load {
                                 rsx! {
                                     for _ in 0..table.get_page_state().items_per_page.max(10) {
-                                        TableRow { style: class.to_owned().table_row,
+                                        TableRow { style: config.to_owned().table_row,
                                             if column_check {
-                                                TableCell { style: class.to_owned().table_head, Skeleton {
+                                                TableCell { style: config.to_owned().table_head, Skeleton {
                                                 } }
                                             }
                                             for _ in table.get_cols().into_iter() {
-                                                TableCell { style: class.to_owned().table_cell, Skeleton {
+                                                TableCell { style: config.to_owned().table_cell, Skeleton {
                                                 } }
                                             }
                                         }
@@ -76,16 +76,16 @@ pub fn DefaultTable<T: 'static + Serialize + Eq + Clone + FieldAccessible + Debu
                             } else {
                                 rsx! {
                                     for row in table.get_rows().into_iter() {
-                                        TableRow { style: class.to_owned().table_row,
+                                        TableRow { style: config.to_owned().table_row,
                                             {
                                                 rsx! {
                                                     if column_check {
-                                                        CellCheckBox { style: class.to_owned(), row: row.to_owned() }
+                                                        CellCheckBox { style: config.to_owned(), row: row.to_owned() }
                                                     }
                                                 }
                                             }
                                             for col in table.get_cols().into_iter() {
-                                                TableCell { style: class.to_owned().table_cell,
+                                                TableCell { style: config.to_owned().table_cell,
                                                     {
                                                         let row_copy = row.to_owned();
                                                         let col_copy = col.to_owned();
