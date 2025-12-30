@@ -78,7 +78,7 @@ fn ModalEdit(row: Person) -> Element {
                         }
                     }
                 }
-            
+
         }
     }
 }
@@ -153,18 +153,21 @@ pub fn create_col() -> PropCol<Person> {
             Col {
                 head: "Age".to_owned(),
                 index: "age".to_owned(),
+                style: None,
                 class: Some("text-right".to_owned()),
                 action: None,
             },
             Col {
                 head: "Name".to_owned(),
                 index: "name".to_owned(),
+                style: None,
                 class: None,
                 action: None,
             },
             Col {
                 head: "City".to_owned(),
                 index: "city".to_owned(),
+                style: None,
                 class: None,
                 action: Some(Rc::new(move |row: Person| {
                     rsx! {{row.get_field("city").unwrap_or_default()}}
@@ -173,6 +176,7 @@ pub fn create_col() -> PropCol<Person> {
             Col {
                 head: "Click".to_owned(),
                 index: "click".to_owned(),
+                style: None,
                 class: Some(
                     "font-medium text-blue-600 dark:text-blue-500 hover:underline".to_owned(),
                 ),
@@ -190,6 +194,7 @@ pub fn create_col() -> PropCol<Person> {
             Col {
                 head: "Input".to_owned(),
                 index: "input".to_owned(),
+                style: None,
                 class: None,
                 action: Some(Rc::new(move |_row: Person| {
                     rsx! {
@@ -205,6 +210,7 @@ pub fn create_col() -> PropCol<Person> {
             Col {
                 head: "DropDown".to_owned(),
                 index: "DropDown".to_owned(),
+                style: None,
                 class: None,
                 action: dorpdown(),
             },
