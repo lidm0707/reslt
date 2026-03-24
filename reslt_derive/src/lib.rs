@@ -6,7 +6,6 @@ use syn::parse_macro_input;
 mod field_accessible_logic;
 use field_accessible_logic::expand_field_accessible;
 
-
 mod utils;
 
 #[proc_macro_derive(FieldAccessible)]

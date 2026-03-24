@@ -1,0 +1,20 @@
+{
+  "name": "toast",
+  "variant": "default",
+  "style": "rawcss",
+  "version": "0.1.0",
+  "description": "A toast notification component with default styling using raw CSS for Dioxus 0.7",
+  "category": "feedback",
+  "files": [
+    "component.rs",
+    "toast.css",
+    "toast.rs"
+  ],
+  "dependencies": {
+    "dioxus": "0.7.1"
+  },
+  "requires_tailwind": false,
+  "css_files": [
+    "toast.css"
+  ]
+}

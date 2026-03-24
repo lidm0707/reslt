@@ -1,0 +1,20 @@
+{
+  "name": "skeleton",
+  "variant": "default",
+  "style": "rawcss",
+  "version": "0.1.0",
+  "description": "A skeleton loading component with default styling using raw CSS for Dioxus 0.7. Provides loading states for various UI patterns.",
+  "category": "feedback",
+  "files": [
+    "component.rs",
+    "skeleton.css",
+    "skeleton.rs"
+  ],
+  "dependencies": {
+    "dioxus": "0.7.1"
+  },
+  "requires_tailwind": false,
+  "css_files": [
+    "skeleton.css"
+  ]
+}

@@ -1,0 +1,22 @@
+[package]
+name = "reslt_core"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+
+[dependencies]
+async-std = { workspace = true }
+dioxus = { workspace = true }
+regex = { workspace = true }
+serde = { workspace = true }
+reslt_derive = { path = "../reslt_derive" }
+
+[dev-dependencies]
+dioxus-ssr = { workspace = true }
+pretty_assertions = { workspace = true }
+futures = { workspace = true }
+
+[features]
+web = ["dioxus/web"]
+desktop = ["dioxus/desktop"]
+mobile = ["dioxus/mobile"]

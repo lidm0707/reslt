@@ -1,0 +1,241 @@
+/* Checkbox Container */
+.reslt-checkbox {
+    display: flex;
+    align-items: flex-start;
+}
+
+.reslt-checkbox-input-wrapper {
+    display: flex;
+    align-items: center;
+    height: 1.25rem;
+}
+
+.reslt-checkbox-input {
+    height: 1rem;
+    width: 1rem;
+    border-radius: 0.25rem;
+    border-color: #d1d5db;
+    color: #2563eb;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.reslt-checkbox-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+}
+
+.reslt-checkbox-input:checked {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.reslt-checkbox-input:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.reslt-checkbox-label-container {
+    margin-left: 0.75rem;
+    font-size: 0.875rem;
+}
+
+.reslt-checkbox-label {
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+}
+
+.reslt-checkbox-label:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.reslt-checkbox-description {
+    margin-top: 0.25rem;
+    color: #6b7280;
+}
+
+/* Checkbox Group */
+.reslt-checkbox-group {
+    padding: 1rem;
+}
+
+.reslt-checkbox-group-title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+.reslt-checkbox-group-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.reslt-checkbox-group-select-all {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+.reslt-checkbox-group-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.reslt-checkbox-group-item:hover {
+    background-color: #f9fafb;
+}
+
+.reslt-checkbox-group-item-checkbox {
+    flex-shrink: 0;
+    margin-right: 0.75rem;
+}
+
+.reslt-checkbox-group-item-content {
+    flex: 1;
+}
+
+.reslt-checkbox-group-item-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+}
+
+.reslt-checkbox-group-count {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* Compact Checkbox (for tables) */
+.reslt-compact-checkbox {
+    height: 1rem;
+    width: 1rem;
+    border-radius: 0.25rem;
+    border-color: #d1d5db;
+    color: #2563eb;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.reslt-compact-checkbox:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+}
+
+.reslt-compact-checkbox:checked {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.reslt-compact-checkbox:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Toggle Switch */
+.reslt-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.reslt-toggle-button {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    height: 1.5rem;
+    width: 2.75rem;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.reslt-toggle-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.reslt-toggle-button:checked {
+    background-color: #2563eb;
+}
+
+.reslt-toggle-button:not(:checked) {
+    background-color: #e5e7eb;
+}
+
+.reslt-toggle-button:focus {
+    outline: none;
+    box-shadow:
+        0 0 0 2px white,
+        0 0 0 4px #2563eb;
+}
+
+.reslt-toggle-button-small {
+    height: 1.5rem;
+    width: 2.5rem;
+}
+
+.reslt-toggle-circle {
+    pointer-events: none;
+    display: inline-block;
+    height: 1.25rem;
+    width: 1.25rem;
+    background-color: white;
+    border-radius: 9999px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.reslt-toggle-button:checked .reslt-toggle-circle {
+    transform: translateX(1.25rem);
+}
+
+.reslt-toggle-button:not(:checked) .reslt-toggle-circle {
+    transform: translateX(0);
+}
+
+.reslt-toggle-button-small .reslt-toggle-circle {
+    height: 1rem;
+    width: 1rem;
+}
+
+.reslt-toggle-button-small:checked .reslt-toggle-circle {
+    transform: translateX(1rem);
+}
+
+.reslt-toggle-label {
+    margin-left: 0.75rem;
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    cursor: pointer;
+}
+
+.reslt-toggle-label:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .reslt-checkbox-input,
+    .reslt-checkbox-group-item,
+    .reslt-compact-checkbox,
+    .reslt-toggle-button,
+    .reslt-toggle-circle {
+        transition: none;
+    }
+}

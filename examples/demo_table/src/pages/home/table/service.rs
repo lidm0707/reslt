@@ -1,137 +1,117 @@
-use async_std::task::sleep;
-use std::time::Duration;
-use std::{future::Future, pin::Pin};
-
+use super::hard_data::get_hardcoded_data;
+use super::table_data::Person;
 use anyhow::Result;
-use reslt::prelude::PropData;
+use dioxus::prelude::*;
+use reslt_core::prelude::*;
+use std::pin::Pin;
 
-use super::{hard_data::PERSON_ARRAY, table_data::Person};
+// Define ServerFnError as an alias for anyhow::Error
+pub type ServerFnError = anyhow::Error;
 
-pub fn get_person_data(
-    start: usize,
-    end: usize,
-    sort: (String, bool),
-) -> Pin<Box<dyn 'static + Future<Output = (PropData<Person>, usize)>>> {
-    Box::pin(async move {
-        println!("get_person_data");
-        sleep(Duration::from_secs(1)).await;
-        // Try to acquire the lock
-        let lock_result = PERSON_ARRAY.lock();
-        match lock_result {
-            Ok(array) => {
-                // Clone the entire array to sort it without modifying the original
-                let mut sorted_data = array.clone();
+/// Get person data for the table
+pub async fn get_person_data() -> Result<Vec<Person>> {
+    // In a real application, this would fetch from a database or API
+    // For now, we'll use the hardcoded data
+    let data = get_hardcoded_data();
 
-                // Perform sorting
-                let (key, ascending) = sort;
-                match key.as_str() {
-                    "id" => {
-                        if !ascending {
-                            sorted_data.sort_by(|a, b| a.id.cmp(&b.id));
-                        } else {
-                            sorted_data.sort_by(|a, b| b.id.cmp(&a.id));
-                        }
+    // Simulate network delay
+    async_std::task::sleep(std::time::Duration::from_millis(100)).await;
+
+    Ok(data)
+}
+
+/// Wrapper function for use_table that matches the required signature
+pub fn get_person_data_wrapper(
+) -> impl Fn(usize, usize, (String, bool)) -> Pin<Box<dyn Future<Output = (PropData<Person>, usize)>>>
+{
+    move |start: usize, end: usize, sort: (String, bool)| {
+        Box::pin(async move {
+            match get_person_data().await {
+                Ok(mut data) => {
+                    // Filter data based on start and end
+                    let filtered_data: Vec<Person> =
+                        data.into_iter().skip(start).take(end - start).collect();
+
+                    // Sort data if sort column is provided
+                    let mut sorted_data = filtered_data;
+                    if !sort.0.is_empty() {
+                        sort_by_field(&mut sorted_data, &sort.0, sort.1);
                     }
-                    "name" => {
-                        if !ascending {
-                            sorted_data.sort_by(|a, b| a.name.cmp(&b.name));
-                        } else {
-                            sorted_data.sort_by(|a, b| b.name.cmp(&a.name));
-                        }
-                    }
-                    "age" => {
-                        if !ascending {
-                            sorted_data.sort_by(|a, b| a.age.cmp(&b.age));
-                        } else {
-                            sorted_data.sort_by(|a, b| b.age.cmp(&a.age));
-                        }
-                    }
-                    _ => {
-                        println!("Invalid sort key: {}", key);
-                    }
+
+                    // Return PropData and total count
+                    let total = sorted_data.len() + start;
+                    let prop_data = PropData {
+                        data_vec: sorted_data,
+                    };
+                    (prop_data, total)
                 }
-
-                // Determine the length of the array
-                let len = sorted_data.len();
-
-                // Clamp the range to valid bounds
-                let start_clamped = start.min(len);
-                let end_clamped = end.min(len);
-
-                // Slice the sorted data
-                let sliced_data = sorted_data[start_clamped..end_clamped].to_vec();
-
-                // Return the result
-                (
-                    PropData {
-                        data_vec: sliced_data,
-                    },
-                    len,
-                )
-            }
-            Err(_) => {
-                eprintln!("Failed to acquire lock on PERSON_ARRAY");
-
-                // Return empty data and length of zero in case of an error
-                (
+                Err(_) => (
                     PropData {
                         data_vec: Vec::new(),
                     },
                     0,
-                )
+                ),
             }
+        })
+    }
+}
+
+/// Sort a vector of Person by a field
+fn sort_by_field(data: &mut Vec<Person>, field: &str, descending: bool) {
+    data.sort_by(|a, b| {
+        let cmp = match field {
+            "id" => a.id.cmp(&b.id),
+            "name" => a.name.cmp(&b.name),
+            "age" => a.age.cmp(&b.age),
+            "city" => a.city.cmp(&b.city),
+            "created_at" => a.created_at.cmp(&b.created_at),
+            "updated_at" => a.updated_at.cmp(&b.updated_at),
+            _ => std::cmp::Ordering::Equal,
+        };
+
+        if descending {
+            cmp.reverse()
+        } else {
+            cmp
         }
-    })
+    });
 }
 
-pub async fn delete_row(id: u32) {
-    sleep(Duration::from_secs(1)).await;
-    let mut array = PERSON_ARRAY.lock().unwrap(); // เข้าถึง Mutex
-    *array = array
-        .clone()
-        .into_iter()
-        .filter(|person| person.id != id)
-        .collect();
-    if let Some(person) = array.get(0) {
-        println!("{}", array.len());
-        println!("{:?}", person);
-    } else {
-        println!("No data available");
-    }
-}
+/// Delete multiple rows by their IDs
+pub async fn delete_rows(ids: Vec<u32>) -> Result<()> {
+    // In a real application, this would delete from a database
+    // For now, we'll just simulate the operation
 
-pub async fn delete_rows(vec_id: Vec<u32>) {
-    sleep(Duration::from_secs(1)).await;
-    let mut array = PERSON_ARRAY.lock().unwrap(); // เข้าถึง Mutex
-    *array = array
-        .clone()
-        .into_iter()
-        .filter(|person| !vec_id.contains(&person.id))
-        .collect();
+    println!("Deleting rows with IDs: {:?}", ids);
 
-    println!("array {:?}", array);
-    if let Some(person) = array.get(0) {
-        println!("rowss{}", array.len());
-        println!("rowss{:?}", person);
-    } else {
-        println!("No data available");
-    }
-}
+    // Simulate network delay
+    async_std::task::sleep(std::time::Duration::from_millis(500)).await;
 
-pub async fn update_row(updated_row: Person) -> Result<(), String> {
-    let mut array = PERSON_ARRAY.lock().unwrap();
-    if let Some(person) = array.iter_mut().find(|person| person.id == updated_row.id) {
-        *person = updated_row;
-        Ok(())
-    } else {
-        Err("Person not found".to_string())
-    }
-}
-
-pub async fn add_row(mut add_row: Person) -> Result<()> {
-    let mut array = PERSON_ARRAY.lock().unwrap();
-    let max_id = array.iter().map(|person| person.id).max().unwrap_or(0);
-    add_row.id = max_id + 1;
-    array.push(add_row);
     Ok(())
+}
+
+/// Create a new person
+pub async fn create_person(person: Person) -> Result<Person> {
+    // In a real application, this would insert into a database
+    // For now, we'll just return the person
+
+    println!("Creating person: {:?}", person);
+
+    // Simulate network delay
+    async_std::task::sleep(std::time::Duration::from_millis(500)).await;
+
+    Ok(person)
+}
+
+/// Update an existing person
+pub async fn update_person(id: u32, person: Person) -> Result<Person> {
+    // In a real application, this would update in a database
+    // For now, we'll just return the person
+
+    println!("Updating person with ID {}: {:?}", id, person);
+
+    // Simulate network delay
+    async_std::task::sleep(std::time::Duration::from_millis(500)).await;
+
+    Ok(person)
 }

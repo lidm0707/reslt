@@ -1,0 +1,20 @@
+{
+  "name": "table",
+  "variant": "default",
+  "style": "rawcss",
+  "version": "0.1.0",
+  "description": "A table component with default styling using raw CSS for Dioxus 0.7. Supports sorting, pagination, and loading states.",
+  "category": "data",
+  "files": [
+    "component.rs",
+    "table.css",
+    "table.rs"
+  ],
+  "dependencies": {
+    "dioxus": "0.7.1"
+  },
+  "requires_tailwind": false,
+  "css_files": [
+    "table.css"
+  ]
+}

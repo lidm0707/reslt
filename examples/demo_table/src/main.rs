@@ -1,11 +1,7 @@
-use demo_table::pages::home::table::{
-    modal::ModalCreate,
-    service::{delete_rows, get_person_data},
-    table_col::create_col,
-    table_data::Person,
-};
+use demo_table::pages::{create_person_columns, DefaultTable, ModalContainer, ToastContainer};
+use demo_table::pages::{delete_rows, get_person_data, ModalCreate, Person};
 use dioxus::prelude::*;
-use reslt::prelude::*;
+use reslt_core::prelude::*;
 
 #[component]
 fn CheckMethod() -> Element {
@@ -56,7 +52,7 @@ fn FancyButton() -> Element {
 
 #[component]
 fn App() -> Element {
-    let cols = create_col();
+    let cols = create_person_columns();
     let table = use_table(
         get_person_data,
         cols.to_owned(),
