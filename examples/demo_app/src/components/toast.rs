@@ -1,9 +1,9 @@
 use dioxus::prelude::*;
 
-// Re-export Toast types from reslt_core to ensure type compatibility
+// Re-export Toast types from reslt_core for convenience
 pub use reslt_core::prelude::{Toast, ToastType};
 
-/// Individual toast item component with raw CSS
+/// Individual toast item component with Tailwind CSS
 #[component]
 pub fn ToastItem(
     /// The toast data to display
@@ -12,32 +12,32 @@ pub fn ToastItem(
     on_close: EventHandler<u32>,
 ) -> Element {
     let (bg_class, text_class, icon) = match toast.toast_type {
-        ToastType::Success => ("reslt-toast-success", "reslt-toast-success-text", "✓"),
-        ToastType::Error => ("reslt-toast-error", "reslt-toast-error-text", "✕"),
-        ToastType::Warning => ("reslt-toast-warning", "reslt-toast-warning-text", "⚠"),
-        ToastType::Info => ("reslt-toast-info", "reslt-toast-info-text", "ℹ"),
+        ToastType::Success => ("bg-green-100", "text-green-800", "✓"),
+        ToastType::Error => ("bg-red-100", "text-red-800", "✕"),
+        ToastType::Warning => ("bg-yellow-100", "text-yellow-800", "⚠"),
+        ToastType::Info => ("bg-blue-100", "text-blue-800", "ℹ"),
     };
 
     rsx! {
         div {
-            class: "reslt-toast-item {bg_class} {text_class}",
+            class: "flex items-center p-4 mb-4 rounded-lg shadow-md {bg_class} {text_class}",
 
             // Icon
             div {
-                class: "reslt-toast-icon {bg_class}",
+                class: "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 mr-3 rounded-lg {bg_class}",
                 "{icon}"
             }
 
             // Message
             div {
-                class: "reslt-toast-message",
+                class: "text-sm font-normal",
                 "{toast.message}"
             }
 
             // Close button
             button {
                 r#type: "button",
-                class: "reslt-toast-close {text_class}",
+                class: "ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 p-1.5 inline-flex h-8 w-8 hover:bg-gray-200 {text_class}",
                 "aria-label": "Close",
                 onclick: move |_| on_close.call(toast.id),
                 "×"
@@ -46,7 +46,7 @@ pub fn ToastItem(
     }
 }
 
-/// Container for displaying multiple toast notifications with raw CSS
+/// Container for displaying multiple toast notifications with Tailwind CSS
 ///
 /// # Example
 /// ```rust
@@ -85,7 +85,7 @@ pub fn ToastContainer(
 ) -> Element {
     rsx! {
         div {
-            class: "reslt-toast-container",
+            class: "fixed top-0 right-0 p-4 z-50 space-y-4 w-80 max-h-screen overflow-y-auto",
             for toast in toasts {
                 {toast}
             }

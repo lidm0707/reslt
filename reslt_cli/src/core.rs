@@ -113,7 +113,7 @@ async fn fetch_remote_registry(_registry_url: &str) -> Result<Registry> {
 pub fn find_component(registry: &Registry, name: &str) -> Option<Component> {
     // First try to match by full directory name (name-variant-style)
     if let Some(component) = registry.components.iter().find(|c| {
-        let full_name = format!("{}-{}-{}", c.name, c.variant, c.style);
+        let full_name = format!("{}_{}_{}", c.name, c.variant, c.style);
         full_name.eq_ignore_ascii_case(name)
     }) {
         return Some(component.clone());

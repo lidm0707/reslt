@@ -1,21 +1,7 @@
 use dioxus::prelude::*;
 
-/// Toast notification type
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
-pub enum ToastType {
-    Success,
-    Error,
-    Warning,
-    Info,
-}
-
-/// Toast data structure
-#[derive(Clone, PartialEq, Eq, Debug)]
-pub struct Toast {
-    pub id: u32,
-    pub message: String,
-    pub toast_type: ToastType,
-}
+// Re-export Toast types from reslt_core to ensure type compatibility
+pub use reslt_core::prelude::{Toast, ToastType};
 
 /// Individual toast item component with Tailwind CSS
 #[component]
@@ -68,22 +54,22 @@ pub fn ToastItem(
 ///
 /// fn MyComponent() -> Element {
 ///     let toast = use_toast();
-///     let toasts = toast.get_toasts();
+///     let toasts = toast.read().get_toasts();
 ///
 ///     rsx! {
 ///         button {
-///             onclick: move |_| toast.success("Operation completed successfully!"),
+///             onclick: move |_| toast.write().success("Operation completed successfully!"),
 ///             "Show Success Toast"
 ///         }
 ///
 ///         ToastContainer {
 ///             toasts: toasts.into_iter().map(|t| {
-///                 let toast_ref = toast.to_owned();
+///                 let toast_ref = toast.clone();
 ///                 rsx! {
 ///                     ToastItem {
 ///                         key: "{t.id}",
 ///                         toast: t,
-///                         on_close: move |id| toast_ref.remove(id),
+///                         on_close: move |id| toast_ref.write().remove(id),
 ///                     }
 ///                 }
 ///             }).collect()
@@ -93,7 +79,7 @@ pub fn ToastItem(
 /// ```
 #[component]
 pub fn ToastContainer(
-    /// The toast items to display (typically from `reslt_core::use_toast().get_toasts()`)
+    /// The toast items to display (typically from `reslt_core::use_toast().read().get_toasts()`)
     #[props(into)]
     toasts: Vec<Element>,
 ) -> Element {
@@ -104,41 +90,5 @@ pub fn ToastContainer(
                 {toast}
             }
         }
-    }
-}
-
-/// Convenience function to create a Toast with success type
-pub fn success_toast(id: u32, message: String) -> Toast {
-    Toast {
-        id,
-        message,
-        toast_type: ToastType::Success,
-    }
-}
-
-/// Convenience function to create a Toast with error type
-pub fn error_toast(id: u32, message: String) -> Toast {
-    Toast {
-        id,
-        message,
-        toast_type: ToastType::Error,
-    }
-}
-
-/// Convenience function to create a Toast with warning type
-pub fn warning_toast(id: u32, message: String) -> Toast {
-    Toast {
-        id,
-        message,
-        toast_type: ToastType::Warning,
-    }
-}
-
-/// Convenience function to create a Toast with info type
-pub fn info_toast(id: u32, message: String) -> Toast {
-    Toast {
-        id,
-        message,
-        toast_type: ToastType::Info,
     }
 }

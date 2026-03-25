@@ -5,9 +5,7 @@
   "version": "0.1.0",
   "description": "A toast notification component with default styling using Tailwind CSS for Dioxus 0.7",
   "category": "feedback",
-  "files": [
-    "component.rs"
-  ],
+  "files": ["toast.rs"],
   "dependencies": {
     "dioxus": "0.7.1"
   },

@@ -2,7 +2,7 @@
 members = [
     "reslt_core",
     "reslt_derive",
-    "examples/demo_table",
+    "examples/demo_app",
     "reslt_cli",
     "reslt_component"
 ]
@@ -20,7 +20,8 @@ dioxus = { version = "0.7", features = [] }
 regex = "1.11.1"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-
+rand = { version = "0.8", features = ["std", "getrandom"] }
+getrandom = { version = "0.2", features = ["js"] }
 # Dev dependencies
 dioxus-ssr = "0.7"
 pretty_assertions = "1.4.0"

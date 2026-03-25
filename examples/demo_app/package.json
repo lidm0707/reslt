@@ -1,0 +1,26 @@
+{
+  "name": "demo_app",
+  "version": "0.1.0",
+  "description": "Demo App - Person Management with Dioxus",
+  "scripts": {
+    "build": "tailwindcss -i ./assets/input.css -o ./assets/tailwind.css",
+    "watch": "tailwindcss -i ./assets/input.css -o ./assets/tailwind.css --watch",
+    "dev": "concurrently \"npm run watch\" \"dx serve\"",
+    "release": "npm run build"
+  },
+  "keywords": [
+    "dioxus",
+    "rust",
+    "web",
+    "tailwindcss"
+  ],
+  "author": "lilidm <lightdemon17@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14"
+  },
+  "dependencies": {}
+}
