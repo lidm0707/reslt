@@ -8,9 +8,12 @@ pub fn use_checkbox_provider<T>()
 where
     T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug,
 {
+    let data_checked = use_signal(|| Vec::<T>::new());
+    let is_all_checked = use_signal(|| false);
+
     use_context_provider(|| UseCheckBox {
-        data_checked: use_signal(|| Vec::<T>::new()),
-        is_all_checked: use_signal(|| false),
+        data_checked,
+        is_all_checked,
     });
 }
 

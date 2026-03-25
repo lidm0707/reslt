@@ -2,10 +2,14 @@ use dioxus::prelude::*;
 
 /// Provides modal context to child components
 pub fn use_modal_provider() {
+    let status = use_signal(|| false);
+    let title = use_signal(|| String::new());
+    let content = use_signal(|| rsx! {});
+
     use_context_provider(|| UseModal {
-        status: use_signal(|| false),
-        title: use_signal(|| String::new()),
-        content: use_signal(|| rsx! {}),
+        status,
+        title,
+        content,
     });
 }
 

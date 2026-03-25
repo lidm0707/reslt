@@ -65,15 +65,13 @@ impl UseToast {
 
 /// Provides toast context to child components
 pub fn use_toast_provider() {
-    use_context_provider(|| {
-        Signal::new(UseToast {
-            toasts: Signal::new(Vec::<Toast>::new()),
-            counter: Signal::new(0),
-        })
-    });
+    let toasts = use_signal(|| Vec::<Toast>::new());
+    let counter = use_signal(|| 0);
+
+    use_context_provider(|| UseToast { toasts, counter });
 }
 
 /// Returns the toast context for showing toasts
-pub fn use_toast() -> Signal<UseToast> {
-    use_context::<Signal<UseToast>>()
+pub fn use_toast() -> UseToast {
+    use_context::<UseToast>()
 }
