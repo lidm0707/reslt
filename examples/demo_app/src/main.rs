@@ -12,16 +12,17 @@ fn App() -> Element {
     use_toast_provider();
 
     // Get toast context to display toasts
-    let mut toast = use_toast();
-    let toasts_vec = toast.read().get_toasts();
+    let toast = use_toast();
+    let toasts_vec = toast.get_toasts();
     let toasts: Vec<Element> = toasts_vec
         .into_iter()
         .map(|t| {
+            let mut toast = toast.clone();
             rsx! {
                 ToastItem {
                     key: "{t.id}",
                     toast: t,
-                    on_close: move |id| toast.write().remove(id),
+                    on_close: move |id| toast.remove(id),
                 }
             }
         })
