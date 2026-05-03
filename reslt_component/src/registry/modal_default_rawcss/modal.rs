@@ -25,7 +25,7 @@ impl ModalSize {
 /// A flexible modal dialog component with customizable header, body, and footer.
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// use reslt_core::prelude::*;
 ///
 /// fn App() -> Element {
@@ -214,7 +214,7 @@ pub fn ModalFooter(
 /// Confirm modal with predefined buttons
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// use reslt_core::prelude::*;
 ///
 /// fn App() -> Element {
@@ -301,7 +301,7 @@ pub fn ConfirmModal(
 /// Alert modal with a single acknowledge button
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// use reslt_core::prelude::*;
 ///
 /// fn App() -> Element {
@@ -369,7 +369,7 @@ pub fn AlertModal(
 /// Form modal with submit and cancel buttons
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// use reslt_core::prelude::*;
 ///
 /// fn App() -> Element {
@@ -475,7 +475,7 @@ pub fn FormModal(
 /// Loading modal for displaying loading state
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// use reslt_core::prelude::*;
 ///
 /// fn App() -> Element {

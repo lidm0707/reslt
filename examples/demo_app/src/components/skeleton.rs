@@ -14,7 +14,7 @@ pub enum SkeletonVariant {
 /// of the content that will be displayed.
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::skeleton::*;
 ///
@@ -77,7 +77,7 @@ pub fn Skeleton(
 /// Text skeleton for simulating text content
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::skeleton::*;
 ///
@@ -133,7 +133,7 @@ pub fn TextSkeleton(
 /// Avatar skeleton for user avatars
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::skeleton::*;
 ///
@@ -174,7 +174,7 @@ pub fn AvatarSkeleton(
 /// Image skeleton for content images
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::skeleton::*;
 ///
@@ -224,7 +224,7 @@ pub fn ImageSkeleton(
 /// Button skeleton for buttons
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::skeleton::*;
 ///
@@ -264,7 +264,7 @@ pub fn ButtonSkeleton(
 /// Card skeleton for card layouts
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::skeleton::*;
 ///
@@ -325,7 +325,7 @@ pub fn CardSkeleton(
 /// Table row skeleton for table loading state
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::skeleton::*;
 ///
@@ -397,7 +397,7 @@ pub fn TableSkeleton(
 /// List skeleton for list items
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::skeleton::*;
 ///
@@ -455,7 +455,7 @@ pub fn ListSkeleton(
 /// Input skeleton for form inputs
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::skeleton::*;
 ///

@@ -26,7 +26,7 @@ impl ModalSize {
 /// should be handled by your application using reslt_core's UseModal hook.
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// use reslt_core::prelude::*;
 /// // Import from your project structure, e.g.:
 /// // use components::modal::*;
@@ -226,7 +226,7 @@ pub fn ModalFooter(
 /// Confirm modal with predefined buttons
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// use reslt_core::prelude::*;
 /// // Import from your project structure, e.g.:
 /// // use components::modal::*;
@@ -320,7 +320,7 @@ pub fn ConfirmModal(
 /// Alert modal for displaying information
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// use reslt_core::modal::*;
 /// // Import from your project structure, e.g.:
 /// // use components::modal::*;
@@ -387,7 +387,7 @@ pub fn AlertModal(
 /// Form modal with submit and cancel buttons
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// use reslt_core::modal::*;
 /// // Import from your project structure, e.g.:
 /// // use components::modal::*;
@@ -485,7 +485,7 @@ pub fn FormModal(
 /// Loading modal for displaying loading state
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::modal::*;
 ///

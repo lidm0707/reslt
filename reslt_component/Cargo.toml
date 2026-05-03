@@ -7,9 +7,6 @@ description = "CLI tool for adding Reslt components from a registry"
 license = "MIT"
 
 
-[lib]
-doctest = false
-
 [dependencies]
 dioxus = { workspace = true }
 serde = { workspace = true }

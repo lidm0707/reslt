@@ -16,9 +16,6 @@ anyhow = "1.0.95"
 async-std = "1.13.1"
 uuid = { version = "1.0", features = ["v4", "js"] }
 
-[lib]
-doctest = false
-
 [profile.wasm-dev]
 inherits = "dev"
 opt-level = 1

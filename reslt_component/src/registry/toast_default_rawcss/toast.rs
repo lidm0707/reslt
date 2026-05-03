@@ -49,7 +49,7 @@ pub fn ToastItem(
 /// Container for displaying multiple toast notifications with raw CSS
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// use reslt_core::prelude::*;
 ///
 /// fn MyComponent() -> Element {

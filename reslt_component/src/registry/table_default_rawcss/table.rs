@@ -220,7 +220,7 @@ pub fn Pagination(
 /// Main table component with raw CSS
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::table::*;
 ///

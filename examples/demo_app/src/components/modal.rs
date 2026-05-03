@@ -26,10 +26,9 @@ impl ModalSize {
 /// should be handled by your application using reslt_core's UseModal hook.
 ///
 /// # Example
-/// ```rust
+/// ```ignore
+/// use dioxus::prelude::*;
 /// use reslt_core::prelude::*;
-/// // Import from your project structure, e.g.:
-/// // use components::modal::*;
 ///
 /// #[component]
 /// fn MyComponent() -> Element {
@@ -226,10 +225,9 @@ pub fn ModalFooter(
 /// Confirm modal with predefined buttons
 ///
 /// # Example
-/// ```rust
+/// ```ignore
+/// use dioxus::prelude::*;
 /// use reslt_core::prelude::*;
-/// // Import from your project structure, e.g.:
-/// // use components::modal::*;
 ///
 /// #[component]
 /// fn DeleteButton() -> Element {
@@ -320,10 +318,9 @@ pub fn ConfirmModal(
 /// Alert modal for displaying information
 ///
 /// # Example
-/// ```rust
-/// use reslt_core::modal::*;
-/// // Import from your project structure, e.g.:
-/// // use components::modal::*;
+/// ```ignore
+/// use dioxus::prelude::*;
+/// use reslt_core::prelude::*;
 ///
 /// fn AlertExample() -> Element {
 ///     let mut show_alert = use_signal(|| false);
@@ -387,11 +384,9 @@ pub fn AlertModal(
 /// Form modal with submit and cancel buttons
 ///
 /// # Example
-/// ```rust
-/// use reslt_core::modal::*;
-/// // Import from your project structure, e.g.:
-/// // use components::modal::*;
+/// ```ignore
 /// use dioxus::prelude::*;
+/// use reslt_core::prelude::*;
 ///
 /// fn FormModalExample() -> Element {
 ///     let mut show_form = use_signal(|| false);
@@ -485,9 +480,8 @@ pub fn FormModal(
 /// Loading modal for displaying loading state
 ///
 /// # Example
-/// ```rust
-/// // Import from your project structure, e.g.:
-/// // use components::modal::*;
+/// ```ignore
+/// use dioxus::prelude::*;
 ///
 /// fn LoadingExample() -> Element {
 ///     let mut is_loading = use_signal(|| false);

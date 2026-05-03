@@ -3,7 +3,7 @@ use dioxus::prelude::*;
 /// Component that includes the checkbox stylesheet
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// use dioxus::prelude::*;
 ///
 /// #[component]

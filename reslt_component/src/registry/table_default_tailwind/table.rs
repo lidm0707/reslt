@@ -213,7 +213,7 @@ pub fn Pagination(
 /// Main table component with Tailwind CSS
 ///
 /// # Example
-/// ```rust
+/// ```ignore
 /// // Import from your project structure, e.g.:
 /// // use components::table::*;
 ///
