@@ -29,9 +29,13 @@ pub struct SortState {
 
 /// Provides table context to child components
 pub fn use_table_provider<T>(
-    fetch_fn: impl Fn(usize, usize, (String, bool)) -> Pin<Box<dyn Future<Output = (PropData<T>, usize)>>>
-        + 'static
-        + Clone,
+    fetch_fn: impl Fn(
+        usize,
+        usize,
+        (String, bool),
+    ) -> Pin<Box<dyn Future<Output = (PropData<T>, usize)>>>
+    + 'static
+    + Clone,
     cols: PropCol<T>,
     sort_state: Option<SortState>,
 ) -> UseTable<T>
@@ -52,9 +56,13 @@ where
 }
 
 pub fn use_table<T>(
-    fetch_fn: impl Fn(usize, usize, (String, bool)) -> Pin<Box<dyn Future<Output = (PropData<T>, usize)>>>
-        + 'static
-        + Clone,
+    fetch_fn: impl Fn(
+        usize,
+        usize,
+        (String, bool),
+    ) -> Pin<Box<dyn Future<Output = (PropData<T>, usize)>>>
+    + 'static
+    + Clone,
     cols: PropCol<T>,
     sort_state: Option<SortState>,
 ) -> UseTable<T>
@@ -86,7 +94,7 @@ where
         let sort = sort.to_owned();
         let start = current_page * page.items_per_page;
         let end = start + items_per_page;
-        let resualt = async move {
+        async move {
             value.to_owned()(
                 start,
                 end,
@@ -96,9 +104,7 @@ where
                 ),
             )
             .await
-        };
-
-        resualt
+        }
     }));
 
     use_effect(use_reactive!(|(data_resource)| {
@@ -151,7 +157,7 @@ where
         let sort_col = self.get_sort_col();
         let sort_desc = self.get_sort_state();
 
-        if sort_col == field_name.to_owned() {
+        if sort_col == field_name {
             self.sort_state.set(SortState {
                 column: Some(field_name.to_owned()),
                 descending: !sort_desc,

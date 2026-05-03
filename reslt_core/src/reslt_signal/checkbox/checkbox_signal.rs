@@ -57,7 +57,7 @@ where
     }
 
     pub fn set_checked_data(&mut self, data: Vec<T>) {
-        if data.len() > 0 {
+        if !data.is_empty() {
             self.data_checked.set(Vec::new());
         } else {
             self.data_checked.set(data);
