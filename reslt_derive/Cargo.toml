@@ -1,20 +1,24 @@
 [package]
-name = "table_derive"
+name = "reslt_derive"
 version = "0.1.0"
+authors = ["lilidm <lightdemon17@gmail.com>"]
 edition = "2024"
+description = "Proc-macro derive for reslt_core FieldAccessible trait"
+license = "MIT"
+repository = "https://github.com/lidm0707/reslt"
+keywords = ["dioxus", "table", "derive"]
 
 [dependencies]
-quote = "1.0.40"
-syn = "2.0.100"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-proc-macro2 = "1.0"
-
+quote = "1.0.45"
+syn = "2.0.117"
+proc-macro2 = "1.0.106"
+serde = { workspace = true }
+serde_json = { workspace = true }
 
 [dev-dependencies]
-syn = { version = "2.0", features = ["full"] }
-quote = "1.0"
-proc-macro2 = "1.0"
+syn = { version = "2.0.117", features = ["full"] }
+quote = "1.0.45"
+proc-macro2 = "1.0.106"
 
 [lib]
 proc-macro = true

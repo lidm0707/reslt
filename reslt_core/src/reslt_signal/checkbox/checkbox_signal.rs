@@ -1,0 +1,75 @@
+use crate::prelude::*;
+use dioxus::prelude::*;
+use serde::Serialize;
+use std::fmt::Debug;
+
+/// Provides checkbox context to child components
+pub fn use_checkbox_provider<T>()
+where
+    T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug,
+{
+    let data_checked = use_signal(|| Vec::<T>::new());
+    let is_all_checked = use_signal(|| false);
+
+    use_context_provider(|| UseCheckBox {
+        data_checked,
+        is_all_checked,
+    });
+}
+
+/// Returns the checkbox context for managing checked items
+pub fn use_checkbox<T>() -> UseCheckBox<T>
+where
+    T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug,
+{
+    use_context::<UseCheckBox<T>>()
+}
+
+#[derive(Clone, PartialEq, Eq, Debug, Props)]
+pub struct UseCheckBox<T>
+where
+    T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug,
+{
+    pub data_checked: Signal<Vec<T>>,
+    pub is_all_checked: Signal<bool>,
+}
+
+impl<T> UseCheckBox<T>
+where
+    T: 'static + Serialize + Eq + Clone + FieldAccessible + Debug,
+{
+    pub fn is_all_checked(&self) -> bool {
+        *self.is_all_checked.read()
+    }
+
+    pub fn set_all_checked(&mut self, data: Vec<T>) {
+        if self.is_all_checked() {
+            self.data_checked.set(Vec::new());
+            self.is_all_checked.set(false);
+        } else {
+            self.data_checked.extend(data);
+            self.is_all_checked.set(true);
+        }
+    }
+
+    pub fn get_checked_data(&self) -> Vec<T> {
+        self.data_checked.read().to_vec()
+    }
+
+    pub fn set_checked_data(&mut self, data: Vec<T>) {
+        if !data.is_empty() {
+            self.data_checked.set(Vec::new());
+        } else {
+            self.data_checked.set(data);
+        }
+    }
+
+    pub fn push_checked_data(&mut self, data: T) {
+        self.data_checked.write().push(data);
+    }
+
+    pub fn remove(&mut self, predicate: T) {
+        let mut data = self.data_checked.write();
+        data.retain(|item| item != &predicate);
+    }
+}

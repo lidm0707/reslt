@@ -1,0 +1,20 @@
+{
+  "name": "modal",
+  "variant": "default",
+  "style": "rawcss",
+  "version": "0.1.0",
+  "description": "A modal component with default styling using raw CSS for Dioxus 0.7. Supports custom content, titles, and flexible positioning.",
+  "category": "overlay",
+  "files": [
+    "component.rs",
+    "modal.css",
+    "modal.rs"
+  ],
+  "dependencies": {
+    "dioxus": "0.7.1"
+  },
+  "requires_tailwind": false,
+  "css_files": [
+    "modal.css"
+  ]
+}

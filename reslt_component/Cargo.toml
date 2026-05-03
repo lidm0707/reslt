@@ -1,0 +1,16 @@
+[package]
+name = "reslt_component"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+description = "CLI tool for adding Reslt components from a registry"
+license = "MIT"
+
+
+[dependencies]
+dioxus = { workspace = true }
+serde = { workspace = true }
+uuid = { version = "1.0", features = ["v4", "js"] } # js depend on feature
+reslt_core = { path = "../reslt_core" }
+reslt_derive = { path = "../reslt_derive" }
+rand = { workspace = true }

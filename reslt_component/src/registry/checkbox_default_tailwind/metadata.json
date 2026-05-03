@@ -1,0 +1,15 @@
+{
+  "name": "checkbox",
+  "variant": "default",
+  "style": "tailwind",
+  "version": "0.1.0",
+  "description": "A checkbox component with default styling using Tailwind CSS for Dioxus 0.7. Supports individual and group selection.",
+  "category": "form",
+  "files": [
+    "checkbox.rs"
+  ],
+  "dependencies": {
+    "dioxus": "0.7.1"
+  },
+  "requires_tailwind": true
+}

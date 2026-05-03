@@ -1,0 +1,47 @@
+[application]
+# App name
+name = "demo_app"
+
+# Dioxus version
+dioxus_version = "0.7"
+
+# Default platform
+default_platform = "web"
+
+[web.app]
+# HTML title
+title = "Demo App - Person Management"
+
+# Base path for the app
+base_path = "/"
+
+[web.watcher]
+# Watch for file changes
+watch_path = ["src"]
+
+# Reload on change
+reload_html = true
+on_index_change = "full reload"
+watch_additional_files = []
+
+[web.resource]
+# CSS files
+style = ["assets/tailwind.css"]
+
+# JavaScript files
+script = []
+
+[web.resource.dev]
+# Dev server configuration
+style = ["assets/tailwind.css"]
+
+[web.resource.release]
+# Release server configuration
+style = ["assets/tailwind.css"]
+
+[application.tools]
+# Use Tailwind CSS
+use_tailwind = true
+
+[application.plugins]
+# No additional plugins
