@@ -9,8 +9,7 @@ members = [
 resolver = "2"
 
 [workspace.package]
-name = "reslt"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["lilidm <lightdemon17@gmail.com>"]
 edition = "2024"
 
@@ -26,9 +25,3 @@ getrandom = { version = "0.2", features = ["js"] }
 dioxus-ssr = "0.7"
 pretty_assertions = "1.4.0"
 futures = "0.3.28"
-
-# Features
-[workspace.features]
-web = ["dioxus/web"]
-desktop = ["dioxus/desktop"]
-mobile = ["dioxus/mobile"]

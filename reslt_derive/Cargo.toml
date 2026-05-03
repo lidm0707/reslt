@@ -1,11 +1,12 @@
 [package]
 name = "reslt_derive"
-version.workspace = true
-authors.workspace = true
-edition.workspace = true
-description = "CLI tool for adding Reslt components from a registry"
+version = "0.1.0"
+authors = ["lilidm <lightdemon17@gmail.com>"]
+edition = "2024"
+description = "Proc-macro derive for reslt_core FieldAccessible trait"
 license = "MIT"
-
+repository = "https://github.com/lidm0707/reslt"
+keywords = ["dioxus", "table", "derive"]
 
 [dependencies]
 quote = "1.0.45"
