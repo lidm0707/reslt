@@ -1,8 +1,11 @@
 [package]
 name = "reslt_derive"
-version = "0.0.1"
-authors = ["lilidm <lightdemon17@gmail.com>"]
-edition = "2024"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+description = "CLI tool for adding Reslt components from a registry"
+license = "MIT"
+
 
 [dependencies]
 quote = "1.0.45"

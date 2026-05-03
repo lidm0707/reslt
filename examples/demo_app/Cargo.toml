@@ -1,6 +1,6 @@
 [package]
 name = "demo_app"
-version = "0.1.0"
+version = "0.0.1"
 authors = ["lilidm <lightdemon17@gmail.com>"]
 edition = "2021"
 
